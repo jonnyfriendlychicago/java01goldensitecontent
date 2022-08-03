@@ -1,5 +1,7 @@
 package com.jonfriend.java01goldensitecontent.controllers;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 //import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -33,6 +36,25 @@ public class HouseCtl {
 	@Autowired
 	private UserSrv userSrv;
 	
+	// view all record
+	@GetMapping("/house")
+	public String showAllHouse(
+			@ModelAttribute("house") HouseMdl houseMdl // this needed to display create-new on the page
+			, Model model
+			, HttpSession session
+			) {
+		
+		// log out the unauth / deliver the auth use data
+		if(session.getAttribute("userId") == null) {return "redirect:/logout";}
+		Long userId = (Long) session.getAttribute("userId");
+		model.addAttribute("user", userSrv.findById(userId));
+		
+		List<HouseMdl> houseList = houseSrv.returnAll();
+		model.addAttribute("houseList", houseList);
+		
+		return "house/list.jsp";
+	}
+	
 	// display create-new page
 	@GetMapping("/house/new")
 	public String newHouse(
@@ -44,9 +66,10 @@ public class HouseCtl {
 		// log out the unauth / deliver the auth use data
 		if(session.getAttribute("userId") == null) {return "redirect:/logout";}
 		Long userId = (Long) session.getAttribute("userId");
-		model.addAttribute("user", userSrv.findById(userId));
+		model.addAttribute("user", userSrv.findById(userId)); 
+		model.addAttribute("path", "createInitial"); // this line prob extraneous
 		
-		return "house/create.jsp";
+		return "house/create.jsp"; 
 	}
 	 
 	// process the create-new   
@@ -63,20 +86,55 @@ public class HouseCtl {
 		Long userId = (Long) session.getAttribute("userId");
 		model.addAttribute("user", userSrv.findById(userId));
 		
-		if(result.hasErrors()) {
+		if(result.hasErrors()) {			
+			model.addAttribute("path", "errorOnCreate"); 
 			return "house/create.jsp";
-		}else {
+		} else {
+			// below gets the userModel object by calling the user service with the session user id
+			UserMdl currentUserMdl = userSrv.findById(userId);
+			// below sets the userId of the new record with above acquisition.
+			houseMdl.setUserMdl( currentUserMdl);
+			// below creates the record
+			houseSrv.create(houseMdl);
+			
+			return "redirect:/house";
+		}
+	}
+	
+	// process the create-new-from-list-pag   
+	@PostMapping("/house/newFromList")
+	public String addNewHouseFromList(
+			@Valid @ModelAttribute("house") HouseMdl houseMdl
+			, BindingResult result
+			, Model model
+			, HttpSession session
+			) {
+		// log out the unauth / deliver the auth use data
+		if(session.getAttribute("userId") == null) {return "redirect:/logout";}
+		Long userId = (Long) session.getAttribute("userId");
+		model.addAttribute("user", userSrv.findById(userId));
+		
+		if(result.hasErrors()) {			
+			
+			List<HouseMdl> houseList = houseSrv.returnAll();
+			model.addAttribute("houseList", houseList);
+			
+			model.addAttribute("path", "errorOnCreate"); 
+			
+			return "house/list.jsp";
+		} else {
 
 			// below gets the userModel object by calling the user service with the session user id
 			UserMdl currentUserMdl = userSrv.findById(userId);
 			// below sets the userId of the new record with above acquisition.
 			houseMdl.setUserMdl( currentUserMdl);
-			
+			// below creates the record
 			houseSrv.create(houseMdl);
 			
-			return "redirect:/home";
+			return "redirect:/house";
 		}
 	}
+	
 	
 	// view record
 	@GetMapping("/house/{id}")
@@ -201,6 +259,6 @@ public class HouseCtl {
         return "redirect:/home";
     }
 	
-
+    
 // end of ctl
 }

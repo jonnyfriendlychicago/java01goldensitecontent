@@ -2,6 +2,6 @@
 
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 
-<div id=footer class="container-fluid">
+<div id=footer class="container-fluid justify-content-center text-white">
 	<p class="footerText">Powered by Coding Dojo</p>
 </div>

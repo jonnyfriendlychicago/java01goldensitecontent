@@ -37,9 +37,19 @@ public class HouseMdl {
 	private Date updatedAt;
 
 	// begin: entity-specific table fields
-//	@NotBlank
+	@NotBlank(message="houseName is required.")
 	private String houseName;
     
+	private String houseDesc;
+	
+	private float houseFloat; 
+	
+	private Integer houseInt; 
+	
+	private String houseLookup; 
+
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private Date houseDate;
     // end: entity-specific table fields
     
     // start: code for joins
@@ -48,7 +58,7 @@ public class HouseMdl {
     @OneToMany(mappedBy="houseMdl", fetch = FetchType.LAZY)
     private List<TwinoneMdl> twinoneList; 
     
-    // join user table
+    // join user 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="createdby_id")
 	private UserMdl userMdl;  
@@ -66,9 +76,9 @@ public class HouseMdl {
     @PreUpdate
     protected void onUpdate(){
         this.updatedAt = new Date();
+        // begin: getters and setters
     }
 
-    // begin: getters and setters
 	public Long getId() {
 		return id;
 	}
@@ -101,6 +111,46 @@ public class HouseMdl {
 		this.houseName = houseName;
 	}
 
+	public String getHouseDesc() {
+		return houseDesc;
+	}
+
+	public void setHouseDesc(String houseDesc) {
+		this.houseDesc = houseDesc;
+	}
+
+	public float getHouseFloat() {
+		return houseFloat;
+	}
+
+	public void setHouseFloat(float houseFloat) {
+		this.houseFloat = houseFloat;
+	}
+
+	public Integer getHouseInt() {
+		return houseInt;
+	}
+
+	public void setHouseInt(Integer houseInt) {
+		this.houseInt = houseInt;
+	}
+
+	public String getHouseLookup() {
+		return houseLookup;
+	}
+
+	public void setHouseLookup(String houseLookup) {
+		this.houseLookup = houseLookup;
+	}
+
+	public Date getHouseDate() {
+		return houseDate;
+	}
+
+	public void setHouseDate(Date houseDate) {
+		this.houseDate = houseDate;
+	}
+
 	public List<TwinoneMdl> getTwinoneList() {
 		return twinoneList;
 	}
@@ -117,7 +167,8 @@ public class HouseMdl {
 		this.userMdl = userMdl;
 	}
 
-	    
+
+
     // end: getters and setters
     
 // end mdl

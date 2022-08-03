@@ -7,7 +7,6 @@
 <body>
 	<jsp:include page="/WEB-INF/include/header.jsp" />
 	
-	
 	<div id=pageHeader class="container-fluid">
 		<h2>Onetwinchild Management</h2>
 	</div>

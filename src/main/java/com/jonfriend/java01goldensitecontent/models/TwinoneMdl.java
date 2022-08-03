@@ -38,7 +38,7 @@ public class TwinoneMdl {
 	private Date updatedAt;
 
 	// begin: entity-specific table fields
-//	@NotBlank
+	@NotBlank(message="twinoneName is required.")
 	private String twinoneName;
     
 	private String twinoneDesc;
@@ -57,6 +57,7 @@ public class TwinoneMdl {
     
     // start: code for joins
     
+    // join twintwo
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
         name = "twintwo_twinone", 
