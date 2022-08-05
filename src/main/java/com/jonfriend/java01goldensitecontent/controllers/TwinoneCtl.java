@@ -41,6 +41,25 @@ public class TwinoneCtl {
 	@Autowired
 	private HouseSrv houseSrv;
 	
+	// view all record
+	@GetMapping("/twinone")
+	public String showAllTwinone(
+			@ModelAttribute("twinone") TwinoneMdl twinoneMdl // this needed to display create-new on the page
+			, Model model
+			, HttpSession session
+			) {
+		
+		// log out the unauth / deliver the auth use data
+		if(session.getAttribute("userId") == null) {return "redirect:/logout";}
+		Long userId = (Long) session.getAttribute("userId");
+		model.addAttribute("user", userSrv.findById(userId));
+		
+		List<TwinoneMdl> twinoneList = twinoneSrv.returnAll();
+		model.addAttribute("twinoneList", twinoneList);
+		
+		return "twinone/list.jsp";
+	}
+	
 	// display create-new page
 	@GetMapping("/twinone/new")
 	public String newTwinone(
@@ -249,14 +268,6 @@ public class TwinoneCtl {
 		TwintwoMdl twintwoObject  = twintwoSrv.findById(twintwoId);
 		
 		twinoneSrv.removeTwinoneTwintwoJoin(twintwoObject, twinoneObject); 
-
-//		if (originPath == 1) {
-//			return "redirect:/twinone/" + twinoneId + "/edit";
-//		} else {
-//			return "redirect:/twintwo/" + twintwoId;
-//		}
-		
-		// above replaced by below, above design outdated.
 		
 		return "redirect:/twinone/" + twinoneId + "/edit";
 	}

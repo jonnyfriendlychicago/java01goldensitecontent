@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
+import com.jonfriend.java01goldensitecontent.models.HouseMdl;
 import com.jonfriend.java01goldensitecontent.models.LoginUserMdl;
 import com.jonfriend.java01goldensitecontent.models.UserMdl;
 import com.jonfriend.java01goldensitecontent.repositories.UserRpo;
@@ -99,10 +100,19 @@ public class UserSrv{
     	
     }
     
-    // JRF: I think below can be removed... tbd. 
+    // JRF: I think below can be removed... tbd. actually (8/4), I think I created this to return a list of users, that's it/all. 
  // returns all user
  	public List<UserMdl> returnAll(){
  		return userRpo.findAll();
+ 	}
+ 	
+ 	// Update a user
+ // updates one house 
+ 	public UserMdl update(UserMdl x) {
+ 		
+ 		// placeholder for checking: email already in use?  username already in use? 
+ 		
+ 		return userRpo.save(x);
  	}
     
 

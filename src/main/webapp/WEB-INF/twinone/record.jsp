@@ -8,183 +8,95 @@
 <body>
 	<jsp:include page="/WEB-INF/include/header.jsp" />
 	
-	<div id=pageHeader class="container-fluid">
+	<div id=pageHeader class="container-fluid p-2 bg-primary text-white text-center">
 		<h2>Twinone Management</h2>
 	</div>
 	
-	<!-- <div id=main class="card"> -->
-	<div id=main class="container-fluid">
-		<div id="recordHeader"> 
-			<h3><c:out value="${twinone.twinoneName}"></c:out></h3>
-<%-- 
-			<c:choose>
-				<c:when test="${user.id == publication.userMdl.id }">
---%>			
-			<a href= "/twinone/${twinone.id}/edit"><button class="btn btn-primary">Edit</button></a>
-<%-- 
-				</c:when>
-				<c:otherwise>
-				</c:otherwise>
-			</c:choose>
---%>
+		<div id="main" class="container-fluid">
+			<div class="row mt-3">
+				<div class="col">
+				</div> <!-- end col -->
+				<div class="col-sm-6">
+					<!-- <div id="profileContainer" class="container col-sm-6"> --> 
+					<div id="profileContainer" class="container"> 
+						<div id="profileCard" class="card p-3 d-md-flex justify-content-start">
+							<div class="d-flex justify-content-between">
+								
+								<div class="card p-2 border-0">
+									<p class="m-0 text-secondary" style="font-size: 0.8rem;">
+										Created
+										<fmt:formatDate value="${twinone.createdAt}" pattern="EEEE"/>,
+										<fmt:formatDate value="${twinone.createdAt}" pattern="MMMM dd"/>
+										, 
+										<fmt:formatDate value="${twinone.createdAt}" pattern="yyyy"/>, 
+										<fmt:formatDate value="${twinone.createdAt}" pattern="h:mm a"/>
+										</p>
+								</div>
+								<div>
+									<a href= "/twinone/${twinone.id}/edit"><button class="btn btn-primary mb-2">Edit</button></a>
+								</div>
+							</div>
+			
+							<div class="card p-2 border-0">
+								<p class="m-0 text-secondary" style="font-size: 0.8rem;">twinoneName</p>
+								<%-- <p class="m-0"><c:out value="${twinone.twinoneName}"></c:out></p> --%>
+								<p class="m-0">${twinone.twinoneName}</p>
+							</div>
+							
+							<div class="card p-2 border-0">
+								<p class="m-0 text-secondary" style="font-size: 0.8rem;">Created by</p>
+								<p class="m-0">${twinone.userMdl.userName}</p>
+							</div>
+							
+							<div class="card p-2 border-0">
+								<p class="m-0 text-secondary" style="font-size: 0.8rem;">twinoneDesc</p>
+								<pre class="textAreaReadOut">${twinone.twinoneDesc}</pre>
+							</div>
+
+							<div class="card p-2 border-0">
+								<p class="m-0 text-secondary" style="font-size: 0.8rem;">twinoneFloat</p>
+								<p class="m-0">
+									<fmt:formatNumber type="number" pattern="0.00" value="${twinone.twinoneFloat}"/>
+								</p>
+							</div>
+							
+							<div class="card p-2 border-0">
+								<p class="m-0 text-secondary" style="font-size: 0.8rem;">twinoneInt</p>
+								<p class="m-0">${twinone.twinoneInt}</p>
+							</div>
+							
+							<div class="card p-2 border-0">
+								<p class="m-0 text-secondary" style="font-size: 0.8rem;">twinoneLookup</p>
+								<p class="m-0">${twinone.twinoneLookup}</p>
+							</div>
+							
+							<div class="card p-2 border-0">
+								<p class="m-0 text-secondary" style="font-size: 0.8rem;">twinoneDate</p>
+								<p class="m-0">
+									<fmt:formatDate value="${twinone.twinoneDate}" pattern="EEEE"/>,
+									<fmt:formatDate value="${twinone.twinoneDate}" pattern="MMMM dd"/>
+									, 
+									<fmt:formatDate value="${twinone.twinoneDate}" pattern="yyyy"/>
+								</p>
+							</div>
+							
+							<div class="card p-2 border-0">
+								<p class="m-0 text-secondary" style="font-size: 0.8rem;">houseName</p>
+								<p class="m-0">${twinone.houseMdl.houseName}</p>
+							</div>
+
+					</div> <!-- end profileCard -->
+				</div> <!-- end profileContainer -->
+			</div> <!-- end col -->
+			<div class="col">
+				<%-- <form action="/twinone/${twinone.id}" method="post">
+				    <input type="hidden" name="_method" value="delete">
+				    <button class="btn btn-danger">Delete this Twinone</button>
+				</form> --%>
+			</div> <!-- end col -->
+		</div> <!-- end row -->
 		
-<%-- 
-			<c:choose>
-				<c:when test="${user.id == publication.userMdl.id }">
---%>
-					<form action="/twinone/${twinone.id}" method="post">
-					    <input type="hidden" name="_method" value="delete">
-					    <button class="btn btn-danger">Delete this Twinone</button>
-					</form>
-<%-- 
-				</c:when>
-				<c:otherwise>
-				</c:otherwise>
-			</c:choose>
---%>
 
-		<%-- <a href= "/onetwinchild/${twinone.id}"><button class="btn btn-primary">See onetwinchild List</button></a> --%>
-		<a href= "/twinone/${twinone.id}/onetwinchild"><button class="btn btn-primary">See onetwinchild List</button></a>
-		
-
-		</div>
-		<div id=about class="card">
-			
-			<p>Created by: <c:out value="${twinone.userMdl.userName}"></c:out>
-			
-			
-			<p>Created on: 
-			<fmt:formatDate value="${twinone.createdAt}" pattern="EEEE"/>,
-			<fmt:formatDate value="${twinone.createdAt}" pattern="MMMM dd"/>
-			, 
-			<fmt:formatDate value="${twinone.createdAt}" pattern="yyyy"/>, 
-			<fmt:formatDate value="${twinone.createdAt}" pattern="h:mm a"/>
-			</p>
-			
-			<h4>twinoneDesc:</h4>
-			<pre class="textAreaReadOut"><c:out value="${twinone.twinoneDesc}"></c:out></pre>
-
-			<p>Due Date: 
-			<fmt:formatDate value="${twinone.twinoneDate}" pattern="EEEE"/>,
-			<fmt:formatDate value="${twinone.twinoneDate}" pattern="MMMM dd"/>
-			, 
-			<fmt:formatDate value="${twinone.twinoneDate}" pattern="yyyy"/>
-			</p>
-			
-			
-			
-			<p>twinoneFloat:
-			<fmt:formatNumber type="number" pattern="0.00" value="${twinone.twinoneFloat}"/>
-			</p>
-
-			
-			<p>twinoneInt: <c:out value="${twinone.twinoneInt}"></c:out> </p>
-			
-			<p>twinoneLookup: <c:out value="${twinone.twinoneLookup}"></c:out> </p>
-			
-			<p>House: <c:out value="${twinone.houseMdl.houseName}"></c:out> </p>
-<%-- 			
-			<p>Here are
-			<c:choose>
-				<c:when test="${user.id == publication.userMdl.id}">your</c:when>
-				<c:otherwise>
-				${publication.userMdl.userName}'s
-				</c:otherwise>
-			</c:choose> 
-			thoughtsOnPub: </p>
---%>
-
-
-			<%-- 
-			<h4>publication.dojoMdl.dojoName: <c:out value="${publication.dojoMdl.dojoName}"></c:out></h4> 
-			--%> 
-			<%-- <a href= "/publication/${publication.id}/edit">OrigEdit</a>  --%>
-			
-<%-- 
-			<c:choose>
-				<c:when test="${user.id == publication.userMdl.id }">
-					<a href= "/publication/${publication.id}/edit"><button class="btn btn-secondary">Edit</button></a>
-				</c:when>
-				<c:otherwise>
-				</c:otherwise>
-			</c:choose> 
-			
-			<c:choose>
-				<c:when test="${user.id == publication.userMdl.id }">
-					<form action="/publication/${publication.id}" method="post">
-					    <input type="hidden" name="_method" value="delete">
-					    <button class="btn btn-danger">Delete this publication</button>
-					</form>
-				</c:when>
-				<c:otherwise>
-				</c:otherwise>
-			</c:choose>
-						 --%>
-		</div>
-		
-		
-		
-		<div id=list class="card">
-			<h3>Twintwo List</h3>
-<%-- 			
-			<c:choose>
-				<c:when test="${mgmtPermissionErrorMsg != null}">
-					<p class="errorText">${mgmtPermissionErrorMsg}</p>
-				</c:when>
-				<c:otherwise></c:otherwise>
-			</c:choose> 
---%>
-			<table class="table table-striped table-dark">
-				<thead>
-					<tr>
-						<th scope="col">id</th>
-						<th scope="col">twintwoName</th>
-					</tr>
-				</thead>
-				<tbody>
-					<c:forEach var="record" items="${assignedCategories}">
-						<tr>
-							<td>${record.id}</td>
-							<td><a href="/twintwo/${record.id}">${record.twintwoName}</a></td>
-<%-- 							
-							<td>
-								<form action="/removeTwinoneTwintwoJoin" method="post">
-								    
-								    <input type="hidden" name="_method" value="delete">
-								    <input type="hidden" name="twintwoId" value="${record.id}"/>
-								    <input type="hidden" name="twinoneId" value="${twinone.id}"/>
-								    <input type="hidden" name="origin" value="1"/>
-								    
-								    <button class="btn btn-danger">Delete</button>
-								</form>
-							</td>
---%>
-						</tr>
-					</c:forEach>
-				</tbody>
-			</table>
-		</div>
-
-<%-- 
-		<div id=form class="card">
-			<h2>Add a Twintwo:</h2>
-
-			<form action='/twinone/${twinone.id}' method='post' >
-				<div class="form-group">
-					<select name="twintwoId"> 
-					
-						<c:forEach var="record" items="${unassignedCategories}">
-							<option value="${record.id}" >
-								<c:out value="${record.twintwoName}" />
-							</option>
-						</c:forEach>
-					</select>
-				</div>
- 				
- 				<button type="submit" class="btn btn-primary">Add</button>
-			</form>
-		</div>
---%>
 	</div>
  
  	<jsp:include page="/WEB-INF/include/footerbuffer.jsp"/>

@@ -101,7 +101,7 @@ public class HouseCtl {
 		}
 	}
 	
-	// process the create-new-from-list-pag   
+	// process the create-new-from-list-page   
 	@PostMapping("/house/newFromList")
 	public String addNewHouseFromList(
 			@Valid @ModelAttribute("house") HouseMdl houseMdl
@@ -179,7 +179,7 @@ public class HouseCtl {
 		return "house/edit.jsp";
 	}
 	
-	// process the edit(s)
+	// process the edit
 	@PostMapping("/house/edit")
 	public String PostTheEditHouse(
 			@Valid 
