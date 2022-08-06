@@ -57,15 +57,6 @@ public class TwinoneMdl {
     
     // start: code for joins
     
-    // join twintwo
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-        name = "twintwo_twinone", 
-        joinColumns = @JoinColumn(name = "twinone_id"), 
-        inverseJoinColumns = @JoinColumn(name = "twintwo_id")
-    )
-    private List<TwintwoMdl> twintwoMdl;
-    
     // join user table
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="createdby_id")
@@ -80,6 +71,15 @@ public class TwinoneMdl {
     @OneToMany(mappedBy="twinoneMdl", fetch = FetchType.LAZY)
     private List<OnetwinchildMdl> onetwinchildList; 
 	
+    // join twintwo
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+    		name = "twintwo_twinone", 
+    		joinColumns = @JoinColumn(name = "twinone_id"), 
+    		inverseJoinColumns = @JoinColumn(name = "twintwo_id")
+    		)
+    private List<TwintwoMdl> twintwoMdl;
+    
 	
     // instantiate the model: 
     public TwinoneMdl() {}

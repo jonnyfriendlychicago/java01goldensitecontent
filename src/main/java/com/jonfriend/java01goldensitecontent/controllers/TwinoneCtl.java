@@ -23,6 +23,7 @@ import com.jonfriend.java01goldensitecontent.models.HouseMdl;
 import com.jonfriend.java01goldensitecontent.models.TwinoneMdl;
 import com.jonfriend.java01goldensitecontent.services.TwintwoSrv;
 import com.jonfriend.java01goldensitecontent.services.HouseSrv;
+import com.jonfriend.java01goldensitecontent.services.OnetwinchildSrv;
 import com.jonfriend.java01goldensitecontent.services.TwinoneSrv;
 import com.jonfriend.java01goldensitecontent.services.UserSrv;
 
@@ -40,6 +41,9 @@ public class TwinoneCtl {
 	
 	@Autowired
 	private HouseSrv houseSrv;
+	
+	@Autowired
+	private OnetwinchildSrv onetwinchildSrv; 
 	
 	// view all record
 	@GetMapping("/twinone")
@@ -123,14 +127,16 @@ public class TwinoneCtl {
 		if(session.getAttribute("userId") == null) {return "redirect:/logout";}
 		
 		// We get the userId from our session (we need to cast the result to a Long as the 'session.getAttribute("userId")' returns an object
-		Long userId = (Long) session.getAttribute("userId");
-		model.addAttribute("user", userSrv.findById(userId));
+		Long AuthenticatedUserId = (Long) session.getAttribute("userId");
+		model.addAttribute("user", userSrv.findById(AuthenticatedUserId));
 		
-		TwinoneMdl intVar = twinoneSrv.findById(id);
+		TwinoneMdl twinoneObj = twinoneSrv.findById(id);
 		
-		model.addAttribute("twinone", intVar);
-		model.addAttribute("assignedCategories", twintwoSrv.getAssignedTwinones(intVar));
-		model.addAttribute("unassignedCategories", twintwoSrv.getUnassignedTwinones(intVar));
+		model.addAttribute("twinone", twinoneObj);
+		model.addAttribute("onetwinchildList", onetwinchildSrv.getAssignedTwinones(twinoneObj));
+		
+//		model.addAttribute("assignedCategories", twintwoSrv.getAssignedTwinones(twinoneObj));
+//		model.addAttribute("unassignedCategories", twintwoSrv.getUnassignedTwinones(twinoneObj));
 		
 		return "twinone/record.jsp";
 	}

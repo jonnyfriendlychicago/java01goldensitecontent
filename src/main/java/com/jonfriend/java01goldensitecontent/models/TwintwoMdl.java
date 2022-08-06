@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn; // JRF manually adding
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 //import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
@@ -45,6 +46,12 @@ public class TwintwoMdl {
     
     // start: code for automatically-created join table
     
+    // join user table
+ 	@ManyToOne(fetch = FetchType.LAZY)
+ 	@JoinColumn(name="createdby_id")
+ 	private UserMdl userMdl;  
+ 	
+ 	// join twinone 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
         name = "twintwo_twinone", 

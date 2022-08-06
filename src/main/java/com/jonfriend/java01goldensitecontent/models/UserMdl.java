@@ -1,9 +1,13 @@
 package com.jonfriend.java01goldensitecontent.models;
 
+import java.util.List;
+
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Email;
@@ -27,12 +31,12 @@ public class UserMdl {
     private String email;
     
     @NotEmpty(message="Password is required!")
-    @Size(min=3, max=128, message="Password must be between 3 and 128 characters")
+    @Size(min=3, max=128, message="Password must be between 8 and 20 characters")
     private String password;
     
     @Transient
     @NotEmpty(message="Confirm Password is required!")
-    @Size(min=3, max=128, message="Confirm Password must be between 8 and 25 characters")
+    @Size(min=3, max=128, message="Confirm Password must match password")
     private String confirm;
     
     private String firstName;
@@ -52,10 +56,22 @@ public class UserMdl {
     // jrf new for userAccessLevel
     
 //    private Integer userAccessLevel; 
+
+    // join house
+    @OneToMany(mappedBy="userMdl", fetch = FetchType.LAZY)
+    private List<HouseMdl> houseList; 
     
-//    // join twinone
-//    @OneToMany(mappedBy="nameofMdl", fetch = FetchType.LAZY)
-//    private List<TwinoneMdl> twinoneList; 
+    // join twinone
+    @OneToMany(mappedBy="userMdl", fetch = FetchType.LAZY)
+    private List<TwinoneMdl> twinoneList; 
+    
+    // join twintwo
+    @OneToMany(mappedBy="userMdl", fetch = FetchType.LAZY)
+    private List<TwintwoMdl> twintwoList;
+    
+    // join onetwinchild
+    @OneToMany(mappedBy="userMdl", fetch = FetchType.LAZY)
+    private List<OnetwinchildMdl> onetwinchildList; 
     
     // instantiate the mdl
     public UserMdl() {}

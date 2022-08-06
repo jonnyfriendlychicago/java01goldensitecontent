@@ -17,8 +17,8 @@
 			<div class="row mt-3">
 				<div class="col">
 				</div> <!-- end col -->
-				<div class="col-sm-6">
-					<div id="profileContainer" class="container"> 
+				<div class="col-sm-7">
+					<!-- <div id="profileContainer" class="container"> --> 
 						<div id="profileCard" class="card p-3 d-md-flex justify-content-start">
 							<div class="d-flex justify-content-between">
 								
@@ -171,7 +171,7 @@
 						</form>
 						
 					</div> <!-- end profileCard -->
-				</div> <!-- end profileContainer -->
+				<!-- </div> --> <!-- end profileContainer -->
 			</div> <!-- end col -->
 			<div class="col">
 				<%-- <form action="/twinone/${twinone.id}" method="post">

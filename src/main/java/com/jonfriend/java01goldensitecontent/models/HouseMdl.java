@@ -53,15 +53,15 @@ public class HouseMdl {
     // end: entity-specific table fields
     
     // start: code for joins
+    
+    // join user 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="createdby_id")
+    private UserMdl userMdl;  
 
 	// join twinone
     @OneToMany(mappedBy="houseMdl", fetch = FetchType.LAZY)
     private List<TwinoneMdl> twinoneList; 
-    
-    // join user 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="createdby_id")
-	private UserMdl userMdl;  
 	
     // end: code for joins
 	

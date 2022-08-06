@@ -38,9 +38,29 @@ public class OnetwinchildMdl {
 //    @NotBlank
     private String onetwinchildName;
     
+	private String onetwinchildDesc;
+	
+	private float onetwinchildFloat; 
+	
+	private Integer onetwinchildInt; 
+	
+	private String onetwinchildLookup; 
+	
+	//	@Future
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private Date onetwinchildDate;
+    
     // end: entity-specific table fields
     
-	@ManyToOne(fetch = FetchType.LAZY)
+    // start: code for joins
+    
+    // join user table
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="createdby_id")
+    private UserMdl userMdl;  
+    
+    // join twinone table 
+    @ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="twinone_id")
 	private TwinoneMdl twinoneMdl;  
 	 
