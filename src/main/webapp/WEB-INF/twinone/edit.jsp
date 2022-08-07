@@ -18,7 +18,11 @@
 				<div class="col">
 				</div> <!-- end col -->
 				<div class="col-sm-7">
-					<!-- <div id="profileContainer" class="container"> --> 
+						<c:if test="${validationErrorMsg != null}">
+					        <div class="alert alert-danger" role="alert">
+					        	${validationErrorMsg}
+					        </div>
+					    </c:if>
 						<div id="twinoneCard" class="card p-3 d-md-flex justify-content-start">
 							<div class="d-flex justify-content-between">
 								

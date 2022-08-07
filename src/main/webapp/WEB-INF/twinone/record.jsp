@@ -17,7 +17,11 @@
 				<div class="col">
 				</div> <!-- end col -->
 				<div class="col-sm-7">
-					<!-- <div id="twinoneContainer" class="container"> --> 
+						<c:if test="${permissionErrorMsg != null}">
+					        <div class="alert alert-warning" role="alert">
+					        	${permissionErrorMsg}
+					        </div>
+					    </c:if>
 						<div id="twinoneCard" class="card p-3 d-md-flex justify-content-start">
 							<div class="d-flex justify-content-between">
 								
@@ -32,7 +36,9 @@
 										</p>
 								</div>
 								<div>
-									<a href= "/twinone/${twinone.id}/edit"><button class="btn btn-primary mb-2">Edit</button></a>
+									<c:if test="${twinone.userMdl.id == authUser.id}">
+									   <a href= "/twinone/${twinone.id}/edit"><button class="btn btn-primary mb-2">Edit</button></a>
+									</c:if>
 								</div>
 							</div>
 			
@@ -104,6 +110,8 @@
 										<th scope="col">id</th>
 										<th scope="col">onetwinchildName</th>
 										<th scope="col">Created By</th>
+										<th scope="col"></th>
+										
 									</tr>
 								</thead>
 								<tbody>
@@ -112,6 +120,11 @@
 											<td>${record.id}</td>
 											<td><a href="/onetwinchild/${record.id}">${record.onetwinchildName}</a></td>
 											<td>${record.userMdl.userName}</td>
+											<td>	
+												<c:if test="${record.userMdl.id == authUser.id}">
+												   <a href= "/onetwinchild/${record.id}/edit"><button class="btn btn-primary mb-2">Edit</button></a>
+												</c:if>
+											</td>
 										</tr>
 									</c:forEach>
 								</tbody>

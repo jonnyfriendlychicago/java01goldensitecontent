@@ -133,7 +133,7 @@ public class IndexhomeprofileCtl {
 	    	// log out the unauth vs. deliver the auth user data
 			if(session.getAttribute("userId") == null) {return "redirect:/logout";}
 			Long userId = (Long) session.getAttribute("userId");
-			model.addAttribute("user", userSrv.findById(userId));
+			model.addAttribute("authUser", userSrv.findById(userId));
 			
 //			List<TwinoneMdl> intVar3 = twinoneSrv.returnAll();
 //			model.addAttribute("twinoneList", intVar3);
@@ -153,7 +153,7 @@ public class IndexhomeprofileCtl {
 	    	// log out the unauth vs. deliver the auth user data
 			if(session.getAttribute("userId") == null) {return "redirect:/logout";}
 			Long userId = (Long) session.getAttribute("userId");
-			model.addAttribute("user", userSrv.findById(userId));
+			model.addAttribute("authUser", userSrv.findById(userId));
 			
 			// grab the entire user object using the url parameter, then deliver to page
 			UserMdl intVar = userSrv.findById(userProfileId);
@@ -174,7 +174,7 @@ public class IndexhomeprofileCtl {
 			// log out the unauth / deliver the auth use data
 			if(session.getAttribute("userId") == null) {return "redirect:/logout";}
 			Long userId = (Long) session.getAttribute("userId");
-			model.addAttribute("user", userSrv.findById(userId));
+			model.addAttribute("authUser", userSrv.findById(userId));
 			
 			// pre-populates the values in the management interface
 			UserMdl intVar = userSrv.findById(userProfileId);

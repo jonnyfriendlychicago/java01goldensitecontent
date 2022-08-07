@@ -97,7 +97,7 @@ public class TwinoneCtl {
 		
 		if(result.hasErrors()) {
 			return "twinone/create.jsp";
-		}else {
+		} else {
 
 			// below gets the userModel object by calling the user service with the session user id
 			UserMdl currentUserMdl = userSrv.findById(authenticatedUserId);
@@ -120,8 +120,8 @@ public class TwinoneCtl {
 		
 		// log out the unauth / deliver the auth user data
 		if(session.getAttribute("userId") == null) {return "redirect:/logout";}
-		Long AuthenticatedUserId = (Long) session.getAttribute("userId");
-		model.addAttribute("authUser", userSrv.findById(AuthenticatedUserId));
+		Long authenticatedUserId = (Long) session.getAttribute("userId");
+		model.addAttribute("authUser", userSrv.findById(authenticatedUserId));
 		
 		TwinoneMdl twinoneObj = twinoneSrv.findById(id);
 		
@@ -141,11 +141,17 @@ public class TwinoneCtl {
 		
 		// log out the unauth / deliver the auth user data
 		if(session.getAttribute("userId") == null) {return "redirect:/logout";}
-		Long AuthenticatedUserId = (Long) session.getAttribute("userId");
-		model.addAttribute("authUser", userSrv.findById(AuthenticatedUserId));
+		Long authenticatedUserId = (Long) session.getAttribute("userId");
+		model.addAttribute("authUser", userSrv.findById(authenticatedUserId));
 		
 		// pre-populates the values in the management interface
 		TwinoneMdl twinoneObj = twinoneSrv.findById(twinoneId);
+		
+		// below gets the userModel object by calling the user service with the session user id
+		UserMdl currentUserMdl = userSrv.findById(authenticatedUserId);
+		UserMdl recordCreatorUserMdl = twinoneObj.getUserMdl(); 
+		System.out.println("currentUserMdl: " + currentUserMdl); 
+		System.out.println("recordCreatorUserMdl: " + recordCreatorUserMdl); 
 		
 		// records in house dropdown
 		List<HouseMdl> houseList = houseSrv.returnAll();
@@ -177,22 +183,27 @@ public class TwinoneCtl {
 		// below now setting up twinone object by using the getID on the modAtt thing. 
 		TwinoneMdl twinoneObj = twinoneSrv.findById(twinoneMdl.getId());
 		
-		if (result.hasErrors()) { 
-			
-            Long AuthenticatedUserId = (Long) session.getAttribute("userId");
-            model.addAttribute("authUser", userSrv.findById(AuthenticatedUserId));            
-//            model.addAttribute("assignedCategories", twintwoSrv.getAssignedTwinones(twinoneObj));
-//            model.addAttribute("unassignedCategories", twintwoSrv.getUnassignedTwinones(twinoneObj));
+		
+		UserMdl currentUserMdl = userSrv.findById(authenticatedUserId); //  gets the userModel object by calling the user service with the session user id
+		UserMdl recordCreatorUserMdl = twinoneObj.getUserMdl();   // gets the userMdl obj saved to the existing twinoneObj 
+		System.out.println("currentUserMdl: " + currentUserMdl); 
+		System.out.println("recordCreatorUserMdl: " + recordCreatorUserMdl); 
+		
+		if(!currentUserMdl.equals(recordCreatorUserMdl)) {
+			System.out.println("recordCreatorUserMdl != currentUserMdl, so redirected to record"); 
+			redirectAttributes.addFlashAttribute("permissionErrorMsg", "This record can only be edited by its creator.  Any edits just attempted were discarded.");
+			return "redirect:/twinone/" + twinoneObj.getId();
+		}
+		
 
+		if (result.hasErrors()) { 
+			// modAtt needed for page already set in lines before above 'if' (authUser), so don't need to repeat here
+			// redirectAttributes doesn't work here b/c we are not redirecting, we are merely returning.  so use modAtt instead.
+//			redirectAttributes.addFlashAttribute("validationErrorMsg", "Updates not saved, errors found.  See details in form below.");
+			model.addAttribute("validationErrorMsg", "Errors found, updates not applied.  See details in form below.");
 			return "twinone/edit.jsp";
 		} else {
-			
-			// this returns the joined twintwo records list
-//			twinoneMdl.setTwintwoMdl(twintwoSrv.getAssignedTwinones(twinoneObj));
-			
-			twinoneMdl.setUserMdl(twinoneObj.getUserMdl());
-			// translation of line above: we are reSETTING on the twinone model object/record the createbyid to that which is GETTING the creatingbyid from the DB... NO LONGER from that silly hidden input. 
-
+			twinoneMdl.setUserMdl(twinoneObj.getUserMdl()); // shove the existing user mdl from the db/obj into the obj about to be saved. 
 			twinoneSrv.update(twinoneMdl);
 			return "redirect:/twinone/" + twinoneObj.getId();
 		}
