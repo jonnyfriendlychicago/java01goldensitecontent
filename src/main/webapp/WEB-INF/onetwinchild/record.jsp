@@ -8,178 +8,93 @@
 <body>
 	<jsp:include page="/WEB-INF/include/header.jsp" />
 	
-	<div id=pageHeader class="container-fluid">
-		<h2>Twinone Management</h2>
+	<div id=pageHeader class="container-fluid p-2 bg-primary text-white text-center">
+		<h2>Onetwinchild Management</h2>
 	</div>
 	
-	<!-- <div id=main class="card"> -->
-	<div id=main class="container-fluid">
-		<div id="recordHeader"> 
-			<h3><c:out value="${onetwinchild.onetwinchildName}"></c:out></h3>
-<%-- 
-			<c:choose>
-				<c:when test="${user.id == publication.userMdl.id }">
---%>			
-			<a href= "/onetwinchild/${onetwinchild.id}/edit"><button class="btn btn-primary">Edit</button></a>
-<%-- 
-				</c:when>
-				<c:otherwise>
-				</c:otherwise>
-			</c:choose>
---%>
-		
-<%-- 
-			<c:choose>
-				<c:when test="${user.id == publication.userMdl.id }">
---%>
-					<form action="/onetwinchild/${onetwinchild.id}" method="post">
-					    <input type="hidden" name="_method" value="delete">
-					    <button class="btn btn-danger">Delete this Twinone</button>
-					</form>
-<%-- 
-				</c:when>
-				<c:otherwise>
-				</c:otherwise>
-			</c:choose>
---%>
+		<div id="main" class="container-fluid">
+			<div class="row mt-3">
+				<div class="col">
+				</div> <!-- end col -->
+				<div class="col-sm-7">
+						<div id="onetwinchildCard" class="card p-3 d-md-flex justify-content-start">
+							
+							<div class="card p-2 m-0">
+								<p class="m-0 text-secondary" style="font-size: 0.8rem;">
+									twinoneName
+								</p>
+							
+								<p class="m-0" style="font-size: 2rem;">
+								<a href= "/twinone/${twinone.id}" style="text-decoration: none">${onetwinchild.twinoneMdl.twinoneName}</a>
+								</p>
+							</div>
+							
+							<div class="d-flex justify-content-between">
+								<div class="card p-2 border-0">
+									<p class="m-0 text-secondary" style="font-size: 0.8rem;">
+										Created
+										<fmt:formatDate value="${onetwinchild.createdAt}" pattern="EEEE"/>,
+										<fmt:formatDate value="${onetwinchild.createdAt}" pattern="MMMM dd"/>
+										, 
+										<fmt:formatDate value="${onetwinchild.createdAt}" pattern="yyyy"/>, 
+										<fmt:formatDate value="${onetwinchild.createdAt}" pattern="h:mm a"/>
+										</p>
+								</div>
+								<div>
+									<a href= "/onetwinchild/${onetwinchild.id}/edit"><button class="btn btn-primary mb-2">Edit</button></a>
+								</div>
+							</div>
+			
+							<div class="card p-2 m-0 border-0">
+								<p class="m-0 text-secondary" style="font-size: 0.8rem;">onetwinchildName</p>
+								<%-- <p class="m-0"><c:out value="${onetwinchild.onetwinchildName}"></c:out></p> --%>
+								<p class="m-0" style="font-size: 2rem;">${onetwinchild.onetwinchildName}</p>
+							</div>
+							
+							<div class="card p-2 m-0 border-0">
+								<p class="m-0 text-secondary" style="font-size: 0.8rem;">Created by</p>
+								<p class="m-0">${onetwinchild.userMdl.userName}</p>
+							</div>
+							
+							<div class="card p-2 border-0">
+								<p class="m-0 text-secondary" style="font-size: 0.8rem;">onetwinchildDesc</p>
+								<pre class="textAreaReadOut">${onetwinchild.onetwinchildDesc}</pre>
+							</div>
 
-		</div>
-		<div id=about class="card">
-			
-			<p>Created by: <c:out value="${onetwinchild.userMdl.userName}"></c:out>
-			
-			
-			<p>Created on: 
-			<fmt:formatDate value="${onetwinchild.createdAt}" pattern="EEEE"/>,
-			<fmt:formatDate value="${onetwinchild.createdAt}" pattern="MMMM dd"/>
-			, 
-			<fmt:formatDate value="${onetwinchild.createdAt}" pattern="yyyy"/>, 
-			<fmt:formatDate value="${onetwinchild.createdAt}" pattern="h:mm a"/>
-			</p>
-			
-			<h4>onetwinchildDesc:</h4>
-			<pre class="textAreaReadOut"><c:out value="${onetwinchild.onetwinchildDesc}"></c:out></pre>
+							<div class="card p-2 border-0">
+								<p class="m-0 text-secondary" style="font-size: 0.8rem;">onetwinchildFloat</p>
+								<p class="m-0">
+									<fmt:formatNumber type="number" pattern="0.00" value="${onetwinchild.onetwinchildFloat}"/>
+								</p>
+							</div>
+							
+							<div class="card p-2 border-0">
+								<p class="m-0 text-secondary" style="font-size: 0.8rem;">onetwinchildInt</p>
+								<p class="m-0">${onetwinchild.onetwinchildInt}</p>
+							</div>
+							
+							<div class="card p-2 border-0">
+								<p class="m-0 text-secondary" style="font-size: 0.8rem;">onetwinchildLookup</p>
+								<p class="m-0">${onetwinchild.onetwinchildLookup}</p>
+							</div>
+							
+							<div class="card p-2 border-0">
+								<p class="m-0 text-secondary" style="font-size: 0.8rem;">onetwinchildDate</p>
+								<p class="m-0">
+									<fmt:formatDate value="${onetwinchild.onetwinchildDate}" pattern="EEEE"/>,
+									<fmt:formatDate value="${onetwinchild.onetwinchildDate}" pattern="MMMM dd"/>
+									, 
+									<fmt:formatDate value="${onetwinchild.onetwinchildDate}" pattern="yyyy"/>
+								</p>
+							</div>
+							
 
-			<p>Due Date: 
-			<fmt:formatDate value="${onetwinchild.onetwinchildDate}" pattern="EEEE"/>,
-			<fmt:formatDate value="${onetwinchild.onetwinchildDate}" pattern="MMMM dd"/>
-			, 
-			<fmt:formatDate value="${onetwinchild.onetwinchildDate}" pattern="yyyy"/>
-			</p>
-			
-			
-			
-			<p>onetwinchildFloat:
-			<fmt:formatNumber type="number" pattern="0.00" value="${onetwinchild.onetwinchildFloat}"/>
-			</p>
-
-			
-			<p>onetwinchildInt: <c:out value="${onetwinchild.onetwinchildInt}"></c:out> </p>
-			
-			<p>onetwinchildLookup: <c:out value="${onetwinchild.onetwinchildLookup}"></c:out> </p>
-<%-- 			
-			<p>Here are
-			<c:choose>
-				<c:when test="${user.id == publication.userMdl.id}">your</c:when>
-				<c:otherwise>
-				${publication.userMdl.userName}'s
-				</c:otherwise>
-			</c:choose> 
-			thoughtsOnPub: </p>
---%>
-
-
-			<%-- 
-			<h4>publication.dojoMdl.dojoName: <c:out value="${publication.dojoMdl.dojoName}"></c:out></h4> 
-			--%> 
-			<%-- <a href= "/publication/${publication.id}/edit">OrigEdit</a>  --%>
-			
-<%-- 
-			<c:choose>
-				<c:when test="${user.id == publication.userMdl.id }">
-					<a href= "/publication/${publication.id}/edit"><button class="btn btn-secondary">Edit</button></a>
-				</c:when>
-				<c:otherwise>
-				</c:otherwise>
-			</c:choose> 
-			
-			<c:choose>
-				<c:when test="${user.id == publication.userMdl.id }">
-					<form action="/publication/${publication.id}" method="post">
-					    <input type="hidden" name="_method" value="delete">
-					    <button class="btn btn-danger">Delete this publication</button>
-					</form>
-				</c:when>
-				<c:otherwise>
-				</c:otherwise>
-			</c:choose>
-						 --%>
-		</div>
-		
-		
-		
-		<div id=list class="card">
-			<h3>Twintwo List</h3>
-<%-- 			
-			<c:choose>
-				<c:when test="${mgmtPermissionErrorMsg != null}">
-					<p class="errorText">${mgmtPermissionErrorMsg}</p>
-				</c:when>
-				<c:otherwise></c:otherwise>
-			</c:choose> 
---%>
-			<table class="table table-striped table-dark">
-				<thead>
-					<tr>
-						<th scope="col">id</th>
-						<th scope="col">twintwoName</th>
-					</tr>
-				</thead>
-				<tbody>
-					<c:forEach var="record" items="${assignedCategories}">
-						<tr>
-							<td>${record.id}</td>
-							<td><a href="/twintwo/${record.id}">${record.twintwoName}</a></td>
-<%-- 							
-							<td>
-								<form action="/removeTwinoneTwintwoJoin" method="post">
-								    
-								    <input type="hidden" name="_method" value="delete">
-								    <input type="hidden" name="twintwoId" value="${record.id}"/>
-								    <input type="hidden" name="onetwinchildId" value="${onetwinchild.id}"/>
-								    <input type="hidden" name="origin" value="1"/>
-								    
-								    <button class="btn btn-danger">Delete</button>
-								</form>
-							</td>
---%>
-						</tr>
-					</c:forEach>
-				</tbody>
-			</table>
-		</div>
-
-<%-- 
-		<div id=form class="card">
-			<h2>Add a Twintwo:</h2>
-
-			<form action='/onetwinchild/${onetwinchild.id}' method='post' >
-				<div class="form-group">
-					<select name="twintwoId"> 
-					
-						<c:forEach var="record" items="${unassignedCategories}">
-							<option value="${record.id}" >
-								<c:out value="${record.twintwoName}" />
-							</option>
-						</c:forEach>
-					</select>
-				</div>
- 				
- 				<button type="submit" class="btn btn-primary">Add</button>
-			</form>
-		</div>
---%>
-	</div>
+					</div> <!-- end onetwinchildCard -->
+			</div> <!-- end col -->
+			<div class="col">
+			</div> <!-- end col -->
+		</div> <!-- end row -->
+	</div><!-- end main -->
  
  	<jsp:include page="/WEB-INF/include/footerbuffer.jsp"/>
  	<jsp:include page="/WEB-INF/include/footer.jsp"/>

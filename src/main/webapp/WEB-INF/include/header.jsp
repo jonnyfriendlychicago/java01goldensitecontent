@@ -74,10 +74,10 @@
 					class="d-block link-dark text-decoration-none dropdown-toggle text-white"
 					data-bs-toggle="dropdown" aria-expanded="false"
 				> 
-					${user.userName}
+					${authUser.userName}
 				</a>
 				<ul class="dropdown-menu text-small">
-					<li><a class="dropdown-item text-dark" href="/profile/${user.id}">Profile</a></li>
+					<li><a class="dropdown-item text-dark" href="/profile/${authUser.id}">Profile</a></li>
 					<li><hr class="dropdown-divider"></li>
 					<li><a class="dropdown-item text-dark" href="/logout">Sign out</a></li>
 				</ul>

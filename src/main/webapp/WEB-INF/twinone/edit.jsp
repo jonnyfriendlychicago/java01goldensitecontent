@@ -19,7 +19,7 @@
 				</div> <!-- end col -->
 				<div class="col-sm-7">
 					<!-- <div id="profileContainer" class="container"> --> 
-						<div id="profileCard" class="card p-3 d-md-flex justify-content-start">
+						<div id="twinoneCard" class="card p-3 d-md-flex justify-content-start">
 							<div class="d-flex justify-content-between">
 								
 								<div class="card p-2 border-0">
@@ -97,68 +97,7 @@
 									</form:select>
 									<form:label path="houseMdl" for="houseMdl">House:</form:label>
 								</div>
-								
-					
-							<%-- <div class="form-group">
-								<form:label path="twinoneName" for="twinoneName">twinoneName</form:label>
-								<form:input type="text" class="form-control" path="twinoneName"/>
-								<p class="errorText"><form:errors path="twinoneName" />
-								</p>
-							</div>
-				 
-							<div class="form-group">
-								<form:label path="twinoneDesc" for="twinoneDesc">twinoneDesc</form:label>
-								<form:textarea type="text" class="form-control" path="twinoneDesc" />
-								<p class="errorText"><form:errors path="twinoneDesc" /></p>
-							</div> 	
-							
-							<div class="form-group">
-								<form:label path="twinoneDate" for="twinoneDate">twinoneDate</form:label>
-								<form:input type="date" class="form-control" path="twinoneDate" />
-								<p class="errorText"><form:errors path="twinoneDate" /></p>
-							</div>
-							
-							<div class="form-group">
-								<form:label path="twinoneFloat" for="twinoneFloat">twinoneFloat</form:label>
-								<form:input type="number" class="form-control" path="twinoneFloat" min="0.00" step="0.01"/>
-								<p class="errorText"><form:errors path="twinoneFloat" /></p>
-							</div>
-							
-							<div class="form-group">
-								<form:label path="twinoneInt" for="twinoneInt">twinoneInt</form:label>
-								<form:input type="number" class="form-control" path="twinoneInt" min="0" step="1"/>
-								<p class="errorText"><form:errors path="twinoneInt" /></p>
-							</div>
-							
-							<div class="form-group">
-								<form:label path="twinoneLookup" for="twinoneLookup">twinoneLookup</form:label>
-								<form:select path="twinoneLookup">
-									<form:option value="A" path="twinoneLookup">A</form:option>
-									<form:option value="B" path="twinoneLookup">B</form:option>
-									<form:option value="C" path="twinoneLookup">C</form:option>
-								</form:select>
-							</div>
-							
-							<div class="form-group">
-								<form:label path="houseMdl" for="houseMdl">House:</form:label>
-								<form:select path="houseMdl">
-									<c:forEach var="record" items="${houseList}">
-										<c:choose>
-											<c:when test="${twinone.houseMdl.id == record.id}">	
-												<option value="${record.id}" selected >
-													<c:out value="${record.houseName}" />
-												</option>
-											</c:when>
-											<c:otherwise>
-												<option value="${record.id}">
-													<c:out value="${record.houseName}" />
-												</option>
-											</c:otherwise>
-										</c:choose>
-											
-									</c:forEach>
-								</form:select>
-							</div> --%>
+				
 							
 							<div>
 								<button type="submit" class="btn btn-primary">Update</button>
@@ -174,10 +113,6 @@
 				<!-- </div> --> <!-- end profileContainer -->
 			</div> <!-- end col -->
 			<div class="col">
-				<%-- <form action="/twinone/${twinone.id}" method="post">
-				    <input type="hidden" name="_method" value="delete">
-				    <button class="btn btn-danger">Delete this Twinone</button>
-				</form> --%>
 			</div> <!-- end col -->
 		</div> <!-- end row -->
 		

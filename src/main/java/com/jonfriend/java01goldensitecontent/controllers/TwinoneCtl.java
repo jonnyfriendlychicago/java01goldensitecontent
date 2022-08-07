@@ -14,14 +14,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+//import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import com.jonfriend.java01goldensitecontent.models.TwintwoMdl;
 import com.jonfriend.java01goldensitecontent.models.UserMdl;
 import com.jonfriend.java01goldensitecontent.models.HouseMdl;
 import com.jonfriend.java01goldensitecontent.models.TwinoneMdl;
-import com.jonfriend.java01goldensitecontent.services.TwintwoSrv;
 import com.jonfriend.java01goldensitecontent.services.HouseSrv;
 import com.jonfriend.java01goldensitecontent.services.OnetwinchildSrv;
 import com.jonfriend.java01goldensitecontent.services.TwinoneSrv;
@@ -33,8 +30,8 @@ public class TwinoneCtl {
 	@Autowired
 	private TwinoneSrv twinoneSrv;
 	
-	@Autowired
-	private TwintwoSrv twintwoSrv;
+//	@Autowired
+//	private TwintwoSrv twintwoSrv;
 	
 	@Autowired
 	private UserSrv userSrv;
@@ -55,8 +52,8 @@ public class TwinoneCtl {
 		
 		// log out the unauth / deliver the auth use data
 		if(session.getAttribute("userId") == null) {return "redirect:/logout";}
-		Long userId = (Long) session.getAttribute("userId");
-		model.addAttribute("user", userSrv.findById(userId));
+		Long authenticatedUserId = (Long) session.getAttribute("userId");
+		model.addAttribute("authUser", userSrv.findById(authenticatedUserId));
 		
 		List<TwinoneMdl> twinoneList = twinoneSrv.returnAll();
 		model.addAttribute("twinoneList", twinoneList);
@@ -72,12 +69,10 @@ public class TwinoneCtl {
 			, HttpSession session
 			) {
 		 
-		// If no userId is found in session, redirect to logout.  JRF: put this on basically all methods now, except the login/reg pages
+		// log out the unauth / deliver the auth use data
 		if(session.getAttribute("userId") == null) {return "redirect:/logout";}
-		
-		// We get the userId from our session (we need to cast the result to a Long as the 'session.getAttribute("userId")' returns an object
-		Long userId = (Long) session.getAttribute("userId");
-		model.addAttribute("user", userSrv.findById(userId));
+		Long authenticatedUserId = (Long) session.getAttribute("userId");
+		model.addAttribute("authUser", userSrv.findById(authenticatedUserId));
 		
 		// records in house dropdown
 		List<HouseMdl> intVar1 = houseSrv.returnAll();
@@ -97,21 +92,21 @@ public class TwinoneCtl {
 		
 		// log out the unauth / deliver the auth use data
 		if(session.getAttribute("userId") == null) {return "redirect:/logout";}
-		Long userId = (Long) session.getAttribute("userId");
-		model.addAttribute("user", userSrv.findById(userId));
+		Long authenticatedUserId = (Long) session.getAttribute("userId");
+		model.addAttribute("authUser", userSrv.findById(authenticatedUserId));
 		
 		if(result.hasErrors()) {
 			return "twinone/create.jsp";
 		}else {
 
 			// below gets the userModel object by calling the user service with the session user id
-			UserMdl currentUserMdl = userSrv.findById(userId);
+			UserMdl currentUserMdl = userSrv.findById(authenticatedUserId);
 			// below sets the userId of the new record with above acquisition.
 			twinoneMdl.setUserMdl( currentUserMdl);
 			
 			twinoneSrv.create(twinoneMdl);
 			
-			return "redirect:/home";
+			return "redirect:/twinone";
 		}
 	}
 	
@@ -123,20 +118,15 @@ public class TwinoneCtl {
 			, HttpSession session
 			) {
 		
-		// If no userId is found in session, redirect to logout.  JRF: put this on basically all methods now, except the login/reg pages
+		// log out the unauth / deliver the auth user data
 		if(session.getAttribute("userId") == null) {return "redirect:/logout";}
-		
-		// We get the userId from our session (we need to cast the result to a Long as the 'session.getAttribute("userId")' returns an object
 		Long AuthenticatedUserId = (Long) session.getAttribute("userId");
-		model.addAttribute("user", userSrv.findById(AuthenticatedUserId));
+		model.addAttribute("authUser", userSrv.findById(AuthenticatedUserId));
 		
 		TwinoneMdl twinoneObj = twinoneSrv.findById(id);
 		
 		model.addAttribute("twinone", twinoneObj);
 		model.addAttribute("onetwinchildList", onetwinchildSrv.getAssignedTwinones(twinoneObj));
-		
-//		model.addAttribute("assignedCategories", twintwoSrv.getAssignedTwinones(twinoneObj));
-//		model.addAttribute("unassignedCategories", twintwoSrv.getUnassignedTwinones(twinoneObj));
 		
 		return "twinone/record.jsp";
 	}
@@ -149,28 +139,22 @@ public class TwinoneCtl {
 			, HttpSession session
 			) {
 		
-		// If no userId is found in session, redirect to logout.  JRF: put this on basically all methods now, except the login/reg pages
+		// log out the unauth / deliver the auth user data
 		if(session.getAttribute("userId") == null) {return "redirect:/logout";}
-
-		// We get the userId from our session (we need to cast the result to a Long as the 'session.getAttribute("userId")' returns an object
-		Long userId = (Long) session.getAttribute("userId");
-		model.addAttribute("user", userSrv.findById(userId));
+		Long AuthenticatedUserId = (Long) session.getAttribute("userId");
+		model.addAttribute("authUser", userSrv.findById(AuthenticatedUserId));
 		
 		// pre-populates the values in the management interface
-		TwinoneMdl intVar = twinoneSrv.findById(twinoneId);
+		TwinoneMdl twinoneObj = twinoneSrv.findById(twinoneId);
 		
 		// records in house dropdown
-		List<HouseMdl> intVar1 = houseSrv.returnAll();
-		model.addAttribute("houseList", intVar1);  
+		List<HouseMdl> houseList = houseSrv.returnAll();
+		model.addAttribute("houseList", houseList);  
 		
-		model.addAttribute("twinone", intVar);
-		model.addAttribute("assignedCategories", twintwoSrv.getAssignedTwinones(intVar));
-		model.addAttribute("unassignedCategories", twintwoSrv.getUnassignedTwinones(intVar));
-		
-		// records in 'manage-one' interface dropdown
-//		List<DojoMdl> intVar3 = dojoSrvIntVar.returnAll();
-//		model.addAttribute("dojoList", intVar3); 
-		
+		model.addAttribute("twinone", twinoneObj);
+//		model.addAttribute("assignedCategories", twintwoSrv.getAssignedTwinones(intVar));
+//		model.addAttribute("unassignedCategories", twintwoSrv.getUnassignedTwinones(intVar));
+
 		return "twinone/edit.jsp";
 	}
 	
@@ -185,98 +169,85 @@ public class TwinoneCtl {
 			, RedirectAttributes redirectAttributes
 			) {
 		
-		// If no userId is found in session, redirect to logout.  JRF: put this on basically all methods now, except the login/reg pages
+		// log out the unauth / deliver the auth use data
 		if(session.getAttribute("userId") == null) {return "redirect:/logout";}
+		Long authenticatedUserId = (Long) session.getAttribute("userId");
+		model.addAttribute("authUser", userSrv.findById(authenticatedUserId));
 		
-		// trying here to stop someone from forcing this method when not creator; was working, now no idea.... sigh 7/19 2pm
-//		 Long userId = (Long) session.getAttribute("userId"); 
-//		 PublicationMdl intVar = twinoneSrv.findById(twinoneId);
-		
-		// System.out.println("in the postMapping for edit..."); 
-		// System.out.println("intVar.getUserMdl().getId(): " + intVar.getUserMdl().getId()); 
-		// System.out.println("userId: " + userId); 
-		
-//		if(intVar.getUserMdl().getId() != userId) {
-//			redirectAttributes.addFlashAttribute("mgmtPermissionErrorMsg", "Only the creator of a record can edit it.");
-//			return "redirect:/publication";
-//		}
-		
-		// below now setting up intVar object by using the getID on the modAtt thing. 
-		TwinoneMdl intVar = twinoneSrv.findById(twinoneMdl.getId());
+		// below now setting up twinone object by using the getID on the modAtt thing. 
+		TwinoneMdl twinoneObj = twinoneSrv.findById(twinoneMdl.getId());
 		
 		if (result.hasErrors()) { 
 			
-            Long userId = (Long) session.getAttribute("userId");
-            model.addAttribute("user", userSrv.findById(userId));            
-//            model.addAttribute("twinone", intVar);
-            model.addAttribute("assignedCategories", twintwoSrv.getAssignedTwinones(intVar));
-            model.addAttribute("unassignedCategories", twintwoSrv.getUnassignedTwinones(intVar));
+            Long AuthenticatedUserId = (Long) session.getAttribute("userId");
+            model.addAttribute("authUser", userSrv.findById(AuthenticatedUserId));            
+//            model.addAttribute("assignedCategories", twintwoSrv.getAssignedTwinones(twinoneObj));
+//            model.addAttribute("unassignedCategories", twintwoSrv.getUnassignedTwinones(twinoneObj));
 
 			return "twinone/edit.jsp";
 		} else {
 			
 			// this returns the joined twintwo records list
-			twinoneMdl.setTwintwoMdl(twintwoSrv.getAssignedTwinones(intVar));
+//			twinoneMdl.setTwintwoMdl(twintwoSrv.getAssignedTwinones(twinoneObj));
 			
-			twinoneMdl.setUserMdl(intVar.getUserMdl());
+			twinoneMdl.setUserMdl(twinoneObj.getUserMdl());
 			// translation of line above: we are reSETTING on the twinone model object/record the createbyid to that which is GETTING the creatingbyid from the DB... NO LONGER from that silly hidden input. 
 
 			twinoneSrv.update(twinoneMdl);
-			return "redirect:/twinone/" + intVar.getId();
+			return "redirect:/twinone/" + twinoneObj.getId();
 		}
 	}
 	
-	// process new joins for that one twinone
-	@PostMapping("/twinone/{id}/editTwintwoJoins")
-	public String postTwinoneTwintwoJoin(
-//			@PathVariable("id") Long id
-			@PathVariable("id") Long twinoneId
-			, @RequestParam(value="twintwoId") Long twintwoId // requestParam is only used with regular HTML form 
-			,  Model model
-			, HttpSession session
-			) {
-		
-		// If no userId is found in session, redirect to logout.  JRF: put this on basically all methods now, except the login/reg pages
-		if(session.getAttribute("userId") == null) {return "redirect:/logout";}
-		
-		// We get the userId from our session (we need to cast the result to a Long as the 'session.getAttribute("userId")' returns an object
-		Long userId = (Long) session.getAttribute("userId");
-		model.addAttribute("user", userSrv.findById(userId));
-		
-		TwinoneMdl twinone = twinoneSrv.findById(twinoneId);
-		TwintwoMdl twintwo = twintwoSrv.findById(twintwoId);
-		
-		twinone.getTwintwoMdl().add(twintwo);
-		
-		twinoneSrv.update(twinone);
-		
-		// need these two below so that the returned page has this dropdown/table info populated.
-		model.addAttribute("assignedCategories", twintwoSrv.getAssignedTwinones(twinone));
-		model.addAttribute("unassignedCategories", twintwoSrv.getUnassignedTwinones(twinone));
-//		return "redirect:/twinone/" + id;
-		return "redirect:/twinone/" + twinoneId + "/edit";
-	}
-	
-	@DeleteMapping("/removeTwinoneTwintwoJoin")
-    public String removeTwinoneTwintwoJoin(
-    		@RequestParam(value="twintwoId") Long twintwoId // requestParam is only used with regular HTML form
-    		, @RequestParam(value="twinoneId") Long twinoneId // requestParam is only used with regular HTML form
-    		// below removed, outmoded design
- //    		, @RequestParam(value="origin") Long originPath // requestParam is only used with regular HTML form
-    		, HttpSession session
-    		, RedirectAttributes redirectAttributes
-    		) {
-
-    	// If no userId is found in session, redirect to logout.  JRF: put this on basically all methods now, except the login/reg pages
-		if(session.getAttribute("userId") == null) {return "redirect:/logout";}
-		
-		TwinoneMdl twinoneObject = twinoneSrv.findById(twinoneId);
-		TwintwoMdl twintwoObject  = twintwoSrv.findById(twintwoId);
-		
-		twinoneSrv.removeTwinoneTwintwoJoin(twintwoObject, twinoneObject); 
-		
-		return "redirect:/twinone/" + twinoneId + "/edit";
-	}
+//	// process new joins for that one twinone
+//	@PostMapping("/twinone/{id}/editTwintwoJoins")
+//	public String postTwinoneTwintwoJoin(
+////			@PathVariable("id") Long id
+//			@PathVariable("id") Long twinoneId
+//			, @RequestParam(value="twintwoId") Long twintwoId // requestParam is only used with regular HTML form 
+//			,  Model model
+//			, HttpSession session
+//			) {
+//		
+//		// log out the unauth / deliver the auth user data
+//		if(session.getAttribute("userId") == null) {return "redirect:/logout";}
+//		Long AuthenticatedUserId = (Long) session.getAttribute("userId");
+//		model.addAttribute("authUser", userSrv.findById(AuthenticatedUserId));
+//		
+//		TwinoneMdl twinone = twinoneSrv.findById(twinoneId);
+//		TwintwoMdl twintwo = twintwoSrv.findById(twintwoId);
+//		
+//		twinone.getTwintwoMdl().add(twintwo);
+//		
+//		twinoneSrv.update(twinone);
+//		
+//		// need these two below so that the returned page has this dropdown/table info populated.
+//		model.addAttribute("assignedCategories", twintwoSrv.getAssignedTwinones(twinone));
+//		model.addAttribute("unassignedCategories", twintwoSrv.getUnassignedTwinones(twinone));
+////		return "redirect:/twinone/" + id;
+//		return "redirect:/twinone/" + twinoneId + "/edit";
+//	}
+//	
+//	@DeleteMapping("/removeTwinoneTwintwoJoin")
+//    public String removeTwinoneTwintwoJoin(
+//    		@RequestParam(value="twintwoId") Long twintwoId // requestParam is only used with regular HTML form
+//    		, @RequestParam(value="twinoneId") Long twinoneId // requestParam is only used with regular HTML form
+//    		// below removed, outmoded design
+// //    		, @RequestParam(value="origin") Long originPath // requestParam is only used with regular HTML form
+//    		, HttpSession session
+//    		, RedirectAttributes redirectAttributes
+//    		) {
+//
+//		if(session.getAttribute("userId") == null) {return "redirect:/logout";}
+//		Long AuthenticatedUserId = (Long) session.getAttribute("userId");
+//		// model.addAttribute("authUser", userSrv.findById(AuthenticatedUserId));
+//
+//		TwinoneMdl twinoneObject = twinoneSrv.findById(twinoneId);
+//		TwintwoMdl twintwoObject  = twintwoSrv.findById(twintwoId);
+//		
+//		twinoneSrv.removeTwinoneTwintwoJoin(twintwoObject, twinoneObject); 
+//		
+//		return "redirect:/twinone/" + twinoneId + "/edit";
+//	}
 	
 	// delete twinone
     @DeleteMapping("/twinone/{id}")
@@ -287,10 +258,11 @@ public class TwinoneCtl {
     		) {
 		// If no userId is found in session, redirect to logout.  JRF: put this on basically all methods now, except the login/reg pages
 		if(session.getAttribute("userId") == null) {return "redirect:/logout";}
+		Long AuthenticatedUserId = (Long) session.getAttribute("userId");
+		// JRF: above AuthenticatedUserId not being used rigth now, but we will (stop delete by bogus user)
+		// model.addAttribute("authUser", userSrv.findById(AuthenticatedUserId));
 		
-		// trying here to stop someone from forcing this method when not creator
-//		Long userId = (Long) session.getAttribute("userId"); 
-		TwinoneMdl intVar = twinoneSrv.findById(twinoneId);
+		TwinoneMdl twinoneObj = twinoneSrv.findById(twinoneId);
 		
 		// below is to prevent non-creator from deleting record
 //		if(intVar.getUserMdl().getId() != userId) {
@@ -298,10 +270,10 @@ public class TwinoneCtl {
 //			return "redirect:/publication";
 //		}
 
-		twinoneSrv.delete(intVar);
+		twinoneSrv.delete(twinoneObj);
         return "redirect:/home";
     }
 	
 
-// end of ctl
+// end of methods
 }

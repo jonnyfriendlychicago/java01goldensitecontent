@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+//import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotBlank;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -35,7 +36,7 @@ public class OnetwinchildMdl {
 
     // begin: entity-specific table fields
    
-//    @NotBlank
+    @NotBlank
     private String onetwinchildName;
     
 	private String onetwinchildDesc;
@@ -63,7 +64,9 @@ public class OnetwinchildMdl {
     @ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="twinone_id")
 	private TwinoneMdl twinoneMdl;  
-	 
+
+    // end: code for joins
+    
     // instantiate the model: 
     public OnetwinchildMdl() {}
     
@@ -110,6 +113,54 @@ public class OnetwinchildMdl {
 		this.onetwinchildName = onetwinchildName;
 	}
 
+	public String getOnetwinchildDesc() {
+		return onetwinchildDesc;
+	}
+
+	public void setOnetwinchildDesc(String onetwinchildDesc) {
+		this.onetwinchildDesc = onetwinchildDesc;
+	}
+
+	public float getOnetwinchildFloat() {
+		return onetwinchildFloat;
+	}
+
+	public void setOnetwinchildFloat(float onetwinchildFloat) {
+		this.onetwinchildFloat = onetwinchildFloat;
+	}
+
+	public Integer getOnetwinchildInt() {
+		return onetwinchildInt;
+	}
+
+	public void setOnetwinchildInt(Integer onetwinchildInt) {
+		this.onetwinchildInt = onetwinchildInt;
+	}
+
+	public String getOnetwinchildLookup() {
+		return onetwinchildLookup;
+	}
+
+	public void setOnetwinchildLookup(String onetwinchildLookup) {
+		this.onetwinchildLookup = onetwinchildLookup;
+	}
+
+	public Date getOnetwinchildDate() {
+		return onetwinchildDate;
+	}
+
+	public void setOnetwinchildDate(Date onetwinchildDate) {
+		this.onetwinchildDate = onetwinchildDate;
+	}
+
+	public UserMdl getUserMdl() {
+		return userMdl;
+	}
+
+	public void setUserMdl(UserMdl userMdl) {
+		this.userMdl = userMdl;
+	}
+
 	public TwinoneMdl getTwinoneMdl() {
 		return twinoneMdl;
 	}
@@ -117,6 +168,7 @@ public class OnetwinchildMdl {
 	public void setTwinoneMdl(TwinoneMdl twinoneMdl) {
 		this.twinoneMdl = twinoneMdl;
 	}
+
     
     // getters and setters - end
     

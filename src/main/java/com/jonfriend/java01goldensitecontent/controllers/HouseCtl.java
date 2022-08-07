@@ -46,8 +46,8 @@ public class HouseCtl {
 		
 		// log out the unauth / deliver the auth use data
 		if(session.getAttribute("userId") == null) {return "redirect:/logout";}
-		Long userId = (Long) session.getAttribute("userId");
-		model.addAttribute("user", userSrv.findById(userId));
+		Long authenticatedUserId = (Long) session.getAttribute("userId");
+		model.addAttribute("user", userSrv.findById(authenticatedUserId));
 		
 		List<HouseMdl> houseList = houseSrv.returnAll();
 		model.addAttribute("houseList", houseList);

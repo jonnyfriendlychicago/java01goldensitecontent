@@ -86,23 +86,32 @@
 							
 							<p class="mb-2" style="font-size: 1.5rem;">Onetwinchild List</p>
 							
-							<a href= "/onetwinchild/new"><button class="btn btn-primary">Create New Twinone</button></a>
+							<a href= "/twinone/${twinone.id}/onetwinchild/new"><button class="btn btn-primary">Create New Onetwinchild</button></a>
+<%-- 							
+							the c:choose function here is inspired, but def not on the full right path
+							<c:choose>
+								<c:when test= "${twinone.onetwinchild.userMdl()  }">
+									<a href= "/twinone/${twinone.id}/onetwinchild/new"><button class="btn btn-primary">Create New Onetwinchild</button></a>
+								</c:when>
+								<c:otherwise>
+								</c:otherwise>
+							</c:choose>
+--%>
 							
-							<table class="table table-striped table-dark rounded mt-1">
+ 							<table class="table table-striped table-dark rounded mt-1">
 								<thead>
 									<tr>
 										<th scope="col">id</th>
+										<th scope="col">onetwinchildName</th>
 										<th scope="col">Created By</th>
-										<!-- <th scope="col">Rating</th> -->
 									</tr>
 								</thead>
 								<tbody>
 									<c:forEach var="record" items="${onetwinchildList}">
 										<tr>
 											<td>${record.id}</td>
+											<td><a href="/onetwinchild/${record.id}">${record.onetwinchildName}</a></td>
 											<td>${record.userMdl.userName}</td>
-											<%-- <td><a href="/twinone/${record.id}">${record.ratingNumber}</a></td> --%>
-				
 										</tr>
 									</c:forEach>
 								</tbody>
@@ -112,15 +121,9 @@
 				<!-- </div> --> <!-- twinoneContainer -->
 			</div> <!-- end col -->
 			<div class="col">
-				<%-- <form action="/twinone/${twinone.id}" method="post">
-				    <input type="hidden" name="_method" value="delete">
-				    <button class="btn btn-danger">Delete this Twinone</button>
-				</form> --%>
 			</div> <!-- end col -->
 		</div> <!-- end row -->
-		
-
-	</div>
+	</div><!-- end main -->
  
  	<jsp:include page="/WEB-INF/include/footerbuffer.jsp"/>
  	<jsp:include page="/WEB-INF/include/footer.jsp"/>
