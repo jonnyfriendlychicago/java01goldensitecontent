@@ -1,5 +1,6 @@
 package com.jonfriend.java01goldensitecontent.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.jonfriend.java01goldensitecontent.models.UserMdl;
 import com.jonfriend.java01goldensitecontent.models.HouseMdl;
+import com.jonfriend.java01goldensitecontent.models.OnetwinchildMdl;
 import com.jonfriend.java01goldensitecontent.models.TwinoneMdl;
 import com.jonfriend.java01goldensitecontent.services.HouseSrv;
 import com.jonfriend.java01goldensitecontent.services.OnetwinchildSrv;
@@ -88,6 +90,7 @@ public class TwinoneCtl {
 			, BindingResult result
 			, Model model
 			, HttpSession session
+			, RedirectAttributes redirectAttributes
 			) {
 		
 		// log out the unauth / deliver the auth use data
@@ -105,7 +108,7 @@ public class TwinoneCtl {
 			twinoneMdl.setUserMdl( currentUserMdl);
 			
 			twinoneSrv.create(twinoneMdl);
-			
+			redirectAttributes.addFlashAttribute("successMsg", "New Twinone created and added to list below.");
 			return "redirect:/twinone";
 		}
 	}
@@ -125,11 +128,31 @@ public class TwinoneCtl {
 		
 		TwinoneMdl twinoneObj = twinoneSrv.findById(id);
 		
+		// start: fun with functions & loops
+		
+		Integer countOnetwinchild = twinoneObj.getOnetwinchildList().size(); 
+		System.out.println("countOnetwinchild: " + countOnetwinchild); 
+		
+		Integer sumOnetwinchildDotOnetwinchildInt = 0; // instantiate the java variable
+		
+		List<OnetwinchildMdl> onetwinchildList = twinoneObj.getOnetwinchildList(); 
+		
+		for (int i=0; i < countOnetwinchild; i++  ) {
+			System.out.println("onetwinchildList.get(i).getOnetwinchildInt() -- " + onetwinchildList.get(i).getOnetwinchildInt()); 
+			sumOnetwinchildDotOnetwinchildInt += onetwinchildList.get(i).getOnetwinchildInt(); 
+			System.out.println("sumOnetwinchildDotOnetwinchildInt: " + sumOnetwinchildDotOnetwinchildInt); 
+		}
+		
+		// start: fun with functions & loops
+		
 		model.addAttribute("twinone", twinoneObj);
 		model.addAttribute("onetwinchildList", onetwinchildSrv.getAssignedTwinones(twinoneObj));
 		
 		return "twinone/record.jsp";
 	}
+	
+	
+	
 	
 	// display edit page
 	@GetMapping("/twinone/{id}/edit")

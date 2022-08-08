@@ -14,12 +14,11 @@ import org.springframework.validation.BindingResult;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import com.jonfriend.java01goldensitecontent.models.HouseMdl;
 import com.jonfriend.java01goldensitecontent.models.LoginUserMdl;
 
 
 import com.jonfriend.java01goldensitecontent.models.UserMdl;
-
+import com.jonfriend.java01goldensitecontent.models.UserupdateMdl;
 import com.jonfriend.java01goldensitecontent.services.UserSrv;
 
 @Controller
@@ -41,9 +40,9 @@ public class IndexhomeprofileCtl {
 		// *** Redirect authorized users to the /home METHOD -- DON'T EXPOSE REG/LOGIN index page TO ALREADY AUTH'ED USERS ***
 		if(session.getAttribute("userId") != null) {return "redirect:/home";}
 
-		// login/reg form items: putting a new empty UserMdl obj for reg and new empty LoginUserMdl obj on the index page, so user can shove data into it using the form. 
-//        model.addAttribute("newUser", new UserMdl());
-        model.addAttribute("newLogin", new LoginUserMdl());
+		 
+		model.addAttribute("newLogin", new LoginUserMdl()); // putting a new empty LoginUserMdl obj on the index page,
+//        model.addAttribute("newUser", new UserMdl());  // login no longer on the same page as register
         
         System.out.println("Page Display: login"); 
 		return "index.jsp"; 
@@ -59,16 +58,13 @@ public class IndexhomeprofileCtl {
     	
     	UserMdl user = userSrv.login(newLogin, result);
     	
-    	// user==null below is the equiv of "user name not found!"
-        if(result.hasErrors() || user==null ) {
-        	// Below sends in the empty UserMdl object before re-rendering the reg/login page; the LoginUserMdl obj will maintain the incoming values to this method
-        	model.addAttribute("newUser", new UserMdl());
+        if(result.hasErrors() || user==null ) // user==null is the equiv of "user name not found!"
+        {
+        	model.addAttribute("newUser", new UserMdl()); //deliver the empty UserMdl object before re-rendering the reg/login page; the LoginUserMdl obj will maintain the incoming values to this method
             return "index.jsp";
         }
     
-     // No errors?  Store the ID from the DB in session.  This is the equivalent of the end result of the /login method described below. 
-        session.setAttribute("userId", user.getId());
-   	 
+        session.setAttribute("userId", user.getId()); // No errors?  Store the ID from the DB in session.
 	    return "redirect:/home";
     }
     
@@ -77,14 +73,12 @@ public class IndexhomeprofileCtl {
 			Model model
 			, HttpSession session) {
 		
-		// *** Redirect authorized users to the /home METHOD -- DON'T EXPOSE REG/LOGIN index page TO ALREADY AUTH'ED USERS ***
-		if(session.getAttribute("userId") != null) {return "redirect:/home";}
+		if(session.getAttribute("userId") != null) {return "redirect:/home";} // redirect authorized users to the /home METHOD; don't expose the index page to already-authenticated users
 
-		// login/reg form items: putting a new empty UserMdl obj for reg and new empty LoginUserMdl obj on the index page, so user can shove data into it using the form. 
-        model.addAttribute("newUser", new UserMdl());
-//        model.addAttribute("newLogin", new LoginUserMdl());
+        model.addAttribute("newUser", new UserMdl()); // login/reg form items: putting a new empty UserMdl obj for on the index page, so user can shove data into it using the form.
+//        model.addAttribute("newLogin", new LoginUserMdl()); // login no longer on the same page as register
         
-        System.out.println("Page Display: reg"); 
+        System.out.println("Page Display: Register"); 
 		return "register.jsp"; 
 	}
 	
@@ -99,15 +93,12 @@ public class IndexhomeprofileCtl {
     	UserMdl user = userSrv.register(newUser, result);
         
         if(result.hasErrors()) {
-            // Below sends in the empty LoginUser object before re-rendering the reg/login page; the UserMdl obj will maintain the incoming values to this method
-            model.addAttribute("newLogin", new LoginUserMdl());
+            // deliver the empty LoginUser object before re-rendering the reg/login page; the UserMdl obj will maintain the incoming values to this method
+//            model.addAttribute("newLogin", new LoginUserMdl()); // this delivery of empty loginUser object is no longer needed, since login/reg on sep pages
             return "register.jsp";
         }
         
-        // No errors?  Store the ID from the DB in session.  This is the equivalent of the end result of the /login method described below.  
-        // In other words, we are bypassing the /login method with next line. 
-        session.setAttribute("userId", user.getId());
-   	 
+        session.setAttribute("userId", user.getId());  // this is a repeat of the last line of the login method
 	    return "redirect:/home";
     }
      
@@ -117,6 +108,7 @@ public class IndexhomeprofileCtl {
 			) {
 		// below nulls the session.userId value, which prevents access to any/all page(s) other than index, thus redirect to index. 
     	session.setAttribute("userId", null);
+    	System.out.println("User logged out."); 
 	    return "redirect:/";
 	}
 
@@ -138,7 +130,7 @@ public class IndexhomeprofileCtl {
 //			List<TwinoneMdl> intVar3 = twinoneSrv.returnAll();
 //			model.addAttribute("twinoneList", intVar3);
 
-			System.out.println("Page Display: home"); 
+			System.out.println("Page Display: Home"); 
 		    return "home.jsp";  
 		}
 
@@ -156,8 +148,8 @@ public class IndexhomeprofileCtl {
 			model.addAttribute("authUser", userSrv.findById(userId));
 			
 			// grab the entire user object using the url parameter, then deliver to page
-			UserMdl intVar = userSrv.findById(userProfileId);
-			model.addAttribute("userProfile", intVar);
+			UserMdl userObj = userSrv.findById(userProfileId);
+			model.addAttribute("userProfile", userObj); 
 			
 			System.out.println("Page Display: Profile"); 
 			return "profile/record.jsp";
@@ -166,7 +158,8 @@ public class IndexhomeprofileCtl {
 		// display edit page
 		@GetMapping("/profile/{id}/edit")
 		public String editProfile(
-				@PathVariable("id") Long userProfileId
+				@ModelAttribute("userProfileTobe") UserupdateMdl userupdateMdl
+				, @PathVariable("id") Long userProfileId
 				, Model model
 				, HttpSession session
 				) {
@@ -177,8 +170,13 @@ public class IndexhomeprofileCtl {
 			model.addAttribute("authUser", userSrv.findById(userId));
 			
 			// pre-populates the values in the management interface
-			UserMdl intVar = userSrv.findById(userProfileId);
-			model.addAttribute("userProfile", intVar);
+//			UserMdl intVar = userSrv.findById(userProfileId); // delivered mdl aint working
+//			model.addAttribute("userProfile", intVar); // delivered mdl aint working
+			
+			UserMdl userProfileObj = userSrv.findById(userProfileId); // delivered mdl aint working
+			model.addAttribute("userProfileAsis", userProfileObj); // delivered mdl aint working
+			
+//			model.addAttribute("userProfileTobe", new UserupdateMdl());
 			
 			System.out.println("Page Display: ProfileEdit");
 			return "profile/edit.jsp";
@@ -188,7 +186,7 @@ public class IndexhomeprofileCtl {
 		@PostMapping("/profile/edit")
 		public String PostTheEditProfile(
 				@Valid 
-				@ModelAttribute("userProfile") UserMdl userMdl 
+				@ModelAttribute("userProfileTobe") UserupdateMdl userupdateMdl
 				, BindingResult result
 				, Model model
 				, HttpSession session
@@ -197,20 +195,33 @@ public class IndexhomeprofileCtl {
 			
 			// log out the unauth / deliver the auth use data
 			if(session.getAttribute("userId") == null) {return "redirect:/logout";}
-//			Long authenticatedUserId = (Long) session.getAttribute("userId");
+			Long authenticatedUserId = (Long) session.getAttribute("userId");
+			System.out.println("authenticatedUserId: " + authenticatedUserId); 
+//			model.addAttribute("authUser", userSrv.findById(authenticatedUserId));
 			
-			// below now setting up intVar object by using the getID on the modAtt thing. 
-			UserMdl userProfileObj = userSrv.findById(userMdl.getId());
+			// below now setting up the object by using the getID on the modAtt thing. 
+//			UserMdl userProfileObj = userSrv.findById(userMdl.getId());
 			
-			userMdl.setPassword(userProfileObj.getPassword()); 
-			System.out.println("userProfileObj.getPassword(): " + userProfileObj.getPassword()); 
+			UserMdl currentUserMdl = userSrv.findById(authenticatedUserId); //  gets the userModel object by calling the user service with the session user id
+			
+			
+			
+//			JRF: next two lines old bad useless stuff
+//			userMdl.setPassword(userProfileObj.getPassword()); 
+//			userMdl.setConfirm(userProfileObj.getPassword()); // jrf adding this, on a whim... no idea if affecting
+			
+			
+//			System.out.println("userProfileObj.getPassword(): " + userProfileObj.getPassword()); 
 			
 			if (result.hasErrors() ) { 
 				
 				System.out.println("on profile/edit error path"); 
-				Long authenticatedUserId = (Long) session.getAttribute("userId");
-	            model.addAttribute("user", userSrv.findById(authenticatedUserId));            
-//	            System.out.println("userMdl.setPassword(userProfileObj.getPassword()); :: " + userMdl.setPassword(userProfileObj.getPassword()));  
+				
+//				Long authenticatedUserId = (Long) session.getAttribute("userId");
+//	            model.addAttribute("user", userSrv.findById(authenticatedUserId));            
+////	            System.out.println("userMdl.setPassword(userProfileObj.getPassword()); :: " + userMdl.setPassword(userProfileObj.getPassword()));
+//	            System.out.println("result.getErrorCount: " + result.getErrorCount() ); 
+//	            System.out.println("result.getAllErrors: " + result.getAllErrors() ); 
 	            
 				return "profile/edit.jsp";
 			} else {
@@ -220,8 +231,17 @@ public class IndexhomeprofileCtl {
 				
 //				.setUserMdl(userProfileObj.getUserMdl());
 				
-				userSrv.update(userMdl);
-				return "redirect:/profile/" + userProfileObj.getId();
+				currentUserMdl.setEmail(userupdateMdl.getEmail()); 
+				currentUserMdl.setUserName(userupdateMdl.getUserName()); 
+				currentUserMdl.setFirstName(userupdateMdl.getFirstName() ); 
+				currentUserMdl.setLastName(userupdateMdl.getLastName() ); 
+				currentUserMdl.setConfirm("hello");  
+				
+				System.out.println("currentUserMdl.getPassword(): " + currentUserMdl.getPassword() ); 
+				
+				userSrv.update(currentUserMdl);
+				
+				return "redirect:/"; 
 			}
 		}
 		

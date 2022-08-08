@@ -110,6 +110,7 @@
 										<th scope="col">id</th>
 										<th scope="col">onetwinchildName</th>
 										<th scope="col">Created By</th>
+										<th scope="col">onetwinchildInt</th>
 										<th scope="col"></th>
 										
 									</tr>
@@ -120,10 +121,17 @@
 											<td>${record.id}</td>
 											<td><a href="/onetwinchild/${record.id}">${record.onetwinchildName}</a></td>
 											<td>${record.userMdl.userName}</td>
+											<td>${record.onetwinchildInt}</td>
 											<td>	
 												<c:if test="${record.userMdl.id == authUser.id}">
 												   <a href= "/onetwinchild/${record.id}/edit"><button class="btn btn-primary mb-2">Edit</button></a>
 												</c:if>
+												<%-- <c:if test="${record.userMdl.id == authUser.id}"> --%>
+													<form action="/onetwinchild/${record.id}" method="post">
+													    <input type="hidden" name="_method" value="delete">
+													    <button class="btn btn-danger">Delete this Onetwinchild</button>
+													</form>
+												<%-- </c:if> --%>
 											</td>
 										</tr>
 									</c:forEach>

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -225,5 +226,27 @@ public class OnetwinchildCtl {
 		}
 	} 
 	
+	// delete onetwinchild
+    @DeleteMapping("/onetwinchild/{id}")
+    public String deleteOnetwinchild(
+    		@PathVariable("id") Long onetwinchildId
+    		, HttpSession session
+    		, RedirectAttributes redirectAttributes
+    		) {
+		// If no userId is found in session, redirect to logout.  JRF: put this on basically all methods now, except the login/reg pages
+		if(session.getAttribute("userId") == null) {return "redirect:/logout";}
+//		Long AuthenticatedUserId = (Long) session.getAttribute("userId");
+
+		OnetwinchildMdl onetwinchildObj = onetwinchildSrv.findById(onetwinchildId);
+		
+		// below is to prevent non-creator from deleting record
+//		if(intVar.getUserMdl().getId() != userId) {
+//			redirectAttributes.addFlashAttribute("mgmtPermissionErrorMsg", "Only the creator of a record can delete it.");
+//			return "redirect:/publication";
+//		}
+
+		onetwinchildSrv.delete(onetwinchildObj);
+        return "redirect:/home";
+    }
 // end of methods
 }

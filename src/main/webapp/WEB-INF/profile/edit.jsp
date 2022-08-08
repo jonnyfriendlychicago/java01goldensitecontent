@@ -14,29 +14,28 @@
 	<div id=main class="container-fluid">
 		<div id="profileContainer" class="container col-sm-6"> 
 			<div id="profileCard" class="card p-3 d-md-flex justify-content-start">
-				<form:form action='/profile/edit' method='post' modelAttribute='userProfile'>
-					
-					<form:input type="hidden"  path="id" />
+				<form:form action='/profile/edit' method='post' modelAttribute='userProfileTobe'>
 				
 					<div class="form-floating mb-3">
-						<form:input path="userName" type="text" class="form-control" id="floatingUserName" placeholder="userName"/>
+						<%-- JRF: added value="${userProfileAsis.... for each field --%>
+						<form:input value="${userProfileAsis.userName}" path="userName" type="text" class="form-control" id="floatingUserName" placeholder="userName"/>
 						<form:label path="userName" for="floatingUserName">userName</form:label>
 						<p class="text-danger"><form:errors path="userName" />
 					</div>
 					
 					<div class="form-floating mb-3">
-						<form:input path="email" type="email" class="form-control" id="floatingEmail" placeholder="name@example.com"/>
+						<form:input value="${userProfileAsis.email}" path="email" type="email" class="form-control" id="floatingEmail" placeholder="name@example.com"/>
 						<form:label path="email" for="floatingEmail">Email</form:label>
 						<p class="text-danger"><form:errors path="email" />
 					</div>
 					
 					<div class="form-floating mb-3">
-						<form:input path="firstName" type="text" class="form-control" id="floatingfirstName" placeholder="firstName"/>
+						<form:input value="${userProfileAsis.firstName}" path="firstName" type="text" class="form-control" id="floatingfirstName" placeholder="firstName"/>
 						<form:label path="firstName" for="floatingfirstName">firstName</form:label>
 						<p class="text-danger"><form:errors path="firstName" />
 					</div>
 					<div class="form-floating mb-3">
-						<form:input path="lastName" type="text" class="form-control" id="floatinglastName" placeholder="lastName"/>
+						<form:input value="${userProfileAsis.lastName}" path="lastName" type="text" class="form-control" id="floatinglastName" placeholder="lastName"/>
 						<form:label path="lastName" for="floatinglastName">lastName</form:label>
 						<p class="text-danger"><form:errors path="lastName" />
 					</div>
@@ -73,70 +72,6 @@
 				</form:form>
 	
 			<a href="/profile/${userProfile.id}"><button class="btn btn-secondary">Cancel</button></a>
-				
-<%-- 				<div class="row">
-					<div class="col">
-					<p>username:</p>
-					</div>
-					<div class="col"><c:out value="${userProfile.userName}"></c:out></div>
-				</div>
-				
-				<div class="row">
-					<div class="col">
-					<p>email:</p>
-					</div>
-					<div class="col"><c:out value="${userProfile.email}"></c:out></div>
-				</div>
-				
-				<div class="row">
-					<div class="col">
-					<p>firstName:</p>
-					</div>
-					<div class="col"><c:out value="${userProfile.firstName}"></c:out></div>
-				</div>
-				
-				<div class="row">
-					<div class="col">
-					<p>lastName:</p>
-					</div>
-					<div class="col"><c:out value="${userProfile.lastName}"></c:out></div>
-				</div>
-				
-				<div class="row">
-					<div class="col">
-					<p>addressLineOne:</p>
-					</div>
-					<div class="col"><c:out value="${userProfile.addressLineOne}"></c:out></div>
-				</div>
-				
-				<div class="row">
-					<div class="col">
-					<p>addressLineTwo:</p>
-					</div>
-					<div class="col"><c:out value="${userProfile.addressLineTwo}"></c:out></div>
-				</div>
-				
-				<div class="row">
-					<div class="col">
-					<p>city:</p>
-					</div>
-					<div class="col"><c:out value="${userProfile.city}"></c:out></div>
-				</div>
-				
-				<div class="row">
-					<div class="col">
-					<p>state:</p>
-					</div>
-					<div class="col"><c:out value="${userProfile.state}"></c:out></div>
-				</div>
-				
-				<div class="row">
-					<div class="col">
-					<p>zipCode:</p>
-					</div>
-					<div class="col"><c:out value="${userProfile.zipCode}"></c:out></div>
-				</div>
- --%>
 			</div> <!-- end profileCard -->
 		</div> <!-- end profileContainer -->
 

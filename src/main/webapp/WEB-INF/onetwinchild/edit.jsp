@@ -61,14 +61,14 @@
 							
 							<div class="form-floating mb-3">
 								<%-- <form:input type="number" class="form-control" path="onetwinchildFloat" min="0.00" step="0.01" value="0.00"/> --%>
-								<form:input path="onetwinchildFloat" type="number" class="form-control" id="onetwinchildFloat" placeholder="onetwinchildFloat" min="0.00" step="0.01" value="0.00"/>
+								<form:input path="onetwinchildFloat" type="number" class="form-control" id="onetwinchildFloat" placeholder="onetwinchildFloat" min="0.00" step="0.01"/>
 								<form:label path="onetwinchildFloat" for="onetwinchildFloat">onetwinchildFloat</form:label>
 								<p class="text-danger"><form:errors path="onetwinchildFloat" />
 							</div>
 							
 							<div class="form-floating mb-3">
 								<%-- <form:input type="number" class="form-control" path="onetwinchildInt" min="0" step="1" value="0"/> --%>
-								<form:input path="onetwinchildInt" type="number" class="form-control" id="onetwinchildInt" placeholder="onetwinchildInt" min="0" step="1" value="0"/>
+								<form:input path="onetwinchildInt" type="number" class="form-control" id="onetwinchildInt" placeholder="onetwinchildInt" min="0" step="1" />
 								<form:label path="onetwinchildInt" for="onetwinchildInt">onetwinchildInt</form:label>
 								<p class="text-danger"><form:errors path="onetwinchildInt" />
 							</div>

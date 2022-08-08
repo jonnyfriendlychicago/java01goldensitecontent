@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
-import com.jonfriend.java01goldensitecontent.models.HouseMdl;
 import com.jonfriend.java01goldensitecontent.models.LoginUserMdl;
 import com.jonfriend.java01goldensitecontent.models.UserMdl;
 import com.jonfriend.java01goldensitecontent.repositories.UserRpo;
@@ -27,7 +26,6 @@ public class UserSrv{
     	Optional<UserMdl> potentialUser = userRpo.findByEmail(newUser.getEmail());
     	
     	// Reject if email exists in db
-    	// expand below: check if userName exists in db
     	if(potentialUser.isPresent()) {
     		result.rejectValue("email", "Matches", "An account with that email already exists.");
     	}
@@ -107,7 +105,6 @@ public class UserSrv{
  	}
  	
  	// Update a user
- // updates one house 
  	public UserMdl update(UserMdl x) {
  		
  		// placeholder for checking: email already in use?  username already in use? 

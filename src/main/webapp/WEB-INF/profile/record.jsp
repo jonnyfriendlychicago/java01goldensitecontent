@@ -23,12 +23,6 @@
 					</div>
 				</div>
 				
-				
-				
-				
-				
-				
-				
 				<div class="row">
 					<div class="col-3">
 					<p>username:</p>

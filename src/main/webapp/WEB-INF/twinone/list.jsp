@@ -14,17 +14,17 @@
 		
 	<div id=main class="container-fluid">
 		
-		<c:choose>
-			<c:when test="${errorMsg != null}">
-				<div id="errorMsg" class="alert-danger alert-dismissible">
-					<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-					<p class="errorText">${errorMsg}</p>
-				</div>	
-			</c:when>
-			<c:otherwise></c:otherwise>
-		</c:choose>
+		
 		
 		<div id="twinoneList" class="container my-5 ">
+
+		    <c:if test="${successMsg != null}">
+			    <div class="alert alert-success alert-dismissible fade show" role="alert">
+				  ${successMsg}
+				  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+				</div>
+			</c:if>
+			
 			<h3>Twinone List</h3>
 			<a href= "/twinone/new"><button class="btn btn-primary">Create New Twinone</button></a>
 			<table class="table table-striped table-dark table-hover table-bordered table-responsive my-2">
