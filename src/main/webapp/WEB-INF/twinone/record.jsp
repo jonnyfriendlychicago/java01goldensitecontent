@@ -41,55 +41,75 @@
 									</c:if>
 								</div>
 							</div>
-			
-							<div class="card p-2 m-0 border-0">
-								<p class="m-0 text-secondary" style="font-size: 0.8rem;">twinoneName</p>
-								<%-- <p class="m-0"><c:out value="${twinone.twinoneName}"></c:out></p> --%>
-								<p class="m-0" style="font-size: 2rem;">${twinone.twinoneName}</p>
-							</div>
-							
-							<div class="card p-2 m-0 border-0">
-								<p class="m-0 text-secondary" style="font-size: 0.8rem;">Created by</p>
-								<p class="m-0">${twinone.userMdl.userName}</p>
-							</div>
-							
-							<div class="card p-2 border-0">
-								<p class="m-0 text-secondary" style="font-size: 0.8rem;">twinoneDesc</p>
-								<pre class="textAreaReadOut">${twinone.twinoneDesc}</pre>
-							</div>
-
-							<div class="card p-2 border-0">
-								<p class="m-0 text-secondary" style="font-size: 0.8rem;">twinoneFloat</p>
-								<p class="m-0">
-									<fmt:formatNumber type="number" pattern="0.00" value="${twinone.twinoneFloat}"/>
-								</p>
-							</div>
-							
-							<div class="card p-2 border-0">
-								<p class="m-0 text-secondary" style="font-size: 0.8rem;">twinoneInt</p>
-								<p class="m-0">${twinone.twinoneInt}</p>
-							</div>
-							
-							<div class="card p-2 border-0">
-								<p class="m-0 text-secondary" style="font-size: 0.8rem;">twinoneLookup</p>
-								<p class="m-0">${twinone.twinoneLookup}</p>
-							</div>
-							
-							<div class="card p-2 border-0">
-								<p class="m-0 text-secondary" style="font-size: 0.8rem;">twinoneDate</p>
-								<p class="m-0">
-									<fmt:formatDate value="${twinone.twinoneDate}" pattern="EEEE"/>,
-									<fmt:formatDate value="${twinone.twinoneDate}" pattern="MMMM dd"/>
-									, 
-									<fmt:formatDate value="${twinone.twinoneDate}" pattern="yyyy"/>
-								</p>
-							</div>
-							
-							<div class="card p-2 border-0">
-								<p class="m-0 text-secondary" style="font-size: 0.8rem;">houseName</p>
-								<p class="m-0">${twinone.houseMdl.houseName}</p>
-							</div>
-							
+							<div class="row mt-3">
+								<div class="col">
+				
+									<div class="card p-2 m-0 border-0">
+										<p class="m-0 text-secondary" style="font-size: 0.8rem;">twinoneName</p>
+										<%-- <p class="m-0"><c:out value="${twinone.twinoneName}"></c:out></p> --%>
+										<p class="m-0" style="font-size: 2rem;">${twinone.twinoneName}</p>
+									</div>
+									
+									<div class="card p-2 m-0 border-0">
+										<p class="m-0 text-secondary" style="font-size: 0.8rem;">Created by</p>
+										<p class="m-0">${twinone.userMdl.userName}</p>
+									</div>
+									
+									<div class="card p-2 border-0">
+										<p class="m-0 text-secondary" style="font-size: 0.8rem;">twinoneDesc</p>
+										<pre class="textAreaReadOut">${twinone.twinoneDesc}</pre>
+									</div>
+		
+									<div class="card p-2 border-0">
+										<p class="m-0 text-secondary" style="font-size: 0.8rem;">twinoneFloat</p>
+										<p class="m-0">
+											<fmt:formatNumber type="number" pattern="0.00" value="${twinone.twinoneFloat}"/>
+										</p>
+									</div>
+									
+									<div class="card p-2 border-0">
+										<p class="m-0 text-secondary" style="font-size: 0.8rem;">twinoneInt</p>
+										<p class="m-0">${twinone.twinoneInt}</p>
+									</div>
+									
+									<div class="card p-2 border-0">
+										<p class="m-0 text-secondary" style="font-size: 0.8rem;">twinoneLookup</p>
+										<p class="m-0">${twinone.twinoneLookup}</p>
+									</div>
+									
+									<div class="card p-2 border-0">
+										<p class="m-0 text-secondary" style="font-size: 0.8rem;">twinoneDate</p>
+										<p class="m-0">
+											<fmt:formatDate value="${twinone.twinoneDate}" pattern="EEEE"/>,
+											<fmt:formatDate value="${twinone.twinoneDate}" pattern="MMMM dd"/>
+											, 
+											<fmt:formatDate value="${twinone.twinoneDate}" pattern="yyyy"/>
+										</p>
+									</div>
+									
+									<div class="card p-2 border-0">
+										<p class="m-0 text-secondary" style="font-size: 0.8rem;">houseName</p>
+										<p class="m-0">${twinone.houseMdl.houseName}</p>
+									</div>
+								</div> <!-- end col -->
+								<div class="col">
+									<div class="card p-2 border-0">
+										<p class="m-0 text-secondary" style="font-size: 0.8rem;">Count Onetwinchild</p>
+										<p class="m-0">${onetwinchildCount}</p>
+									</div>
+									
+									<div class="card p-2 border-0">
+										<p class="m-0 text-secondary" style="font-size: 0.8rem;">Sum Onetwinchild - onetwinchildInt</p>
+										<p class="m-0">${sumOnetwinchildDotOnetwinchildInt}</p>
+									</div>
+									
+									<div class="card p-2 border-0">
+										<p class="m-0 text-secondary" style="font-size: 0.8rem;">Onetwinchild exists for this twinone:</p>
+										<p class="m-0">${onetwinchildExistsCreatedByAuthUser}</p>
+									</div>
+									
+								</div> <!-- end col -->
+							</div> <!-- end row -->
 							<p class="mb-2" style="font-size: 1.5rem;">Onetwinchild List</p>
 							
 							<a href= "/twinone/${twinone.id}/onetwinchild/new"><button class="btn btn-primary">Create New Onetwinchild</button></a>
@@ -139,7 +159,6 @@
 							</table>
 
 					</div> <!-- end twinoneCard -->
-				<!-- </div> --> <!-- twinoneContainer -->
 			</div> <!-- end col -->
 			<div class="col">
 			</div> <!-- end col -->

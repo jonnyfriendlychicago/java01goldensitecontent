@@ -126,27 +126,51 @@ public class TwinoneCtl {
 		Long authenticatedUserId = (Long) session.getAttribute("userId");
 		model.addAttribute("authUser", userSrv.findById(authenticatedUserId));
 		
+		UserMdl currentUserMdl = userSrv.findById(authenticatedUserId); 
 		TwinoneMdl twinoneObj = twinoneSrv.findById(id);
 		
 		// start: fun with functions & loops
 		
-		Integer countOnetwinchild = twinoneObj.getOnetwinchildList().size(); 
-		System.out.println("countOnetwinchild: " + countOnetwinchild); 
+		List<OnetwinchildMdl> onetwinchildList = twinoneObj.getOnetwinchildList(); // instantiate the java list
 		
-		Integer sumOnetwinchildDotOnetwinchildInt = 0; // instantiate the java variable
+		Integer onetwinchildCount = onetwinchildList.size(); // get a count of how many items in the list
 		
-		List<OnetwinchildMdl> onetwinchildList = twinoneObj.getOnetwinchildList(); 
+		Integer sumOnetwinchildDotOnetwinchildInt = 0; // instantiate the java variable that we will update in the loop 
+		Boolean onetwinchildExistsCreatedByAuthUser = false; // instantiate the java variable that we will update in the loop
 		
-		for (int i=0; i < countOnetwinchild; i++  ) {
-			System.out.println("onetwinchildList.get(i).getOnetwinchildInt() -- " + onetwinchildList.get(i).getOnetwinchildInt()); 
+		
+		for (int i=0; i < onetwinchildCount; i++  ) {
+			System.out.println("value of item in drawer " + i + " -- " + onetwinchildList.get(i).getOnetwinchildInt()); 
 			sumOnetwinchildDotOnetwinchildInt += onetwinchildList.get(i).getOnetwinchildInt(); 
-			System.out.println("sumOnetwinchildDotOnetwinchildInt: " + sumOnetwinchildDotOnetwinchildInt); 
+			System.out.println("sum: " + sumOnetwinchildDotOnetwinchildInt); 
+			if (onetwinchildList.get(i).getUserMdl().equals(currentUserMdl) )
+			{onetwinchildExistsCreatedByAuthUser = true; 
+			} // if there's a a match, set to true.  that's it, that's all you gotta do.  
+			System.out.println("onetwinchildExistsCreatedByAuthUser: " + onetwinchildExistsCreatedByAuthUser);
 		}
 		
-		// start: fun with functions & loops
+//		// below is a great while-loop, but unnecessary as we've incorporated the userCheck into the for-loop above.  If for-loop above didn't exist, while-loop below would be ideal.
+//		int i = 0; 
+//		while  (i < onetwinchildCount && onetwinchildExistsCreatedByAuthUser == false
+//				) 
+//		{
+//			if (onetwinchildList.get(i).getUserMdl().equals(currentUserMdl) )
+//				{onetwinchildExistsCreatedByAuthUser = true; 
+//				} else {
+//				i++; 
+//			}
+//		}
+//		
+//		System.out.println("onetwinchildExistsCreatedByAuthUser: " + onetwinchildExistsCreatedByAuthUser); 
+
+		// end: fun with functions & loops
 		
 		model.addAttribute("twinone", twinoneObj);
 		model.addAttribute("onetwinchildList", onetwinchildSrv.getAssignedTwinones(twinoneObj));
+		model.addAttribute("onetwinchildCount", onetwinchildCount); 
+		model.addAttribute("sumOnetwinchildDotOnetwinchildInt", sumOnetwinchildDotOnetwinchildInt); 
+		model.addAttribute("onetwinchildExistsCreatedByAuthUser", onetwinchildExistsCreatedByAuthUser);
+		
 		
 		return "twinone/record.jsp";
 	}
@@ -184,6 +208,14 @@ public class TwinoneCtl {
 //		model.addAttribute("assignedCategories", twintwoSrv.getAssignedTwinones(intVar));
 //		model.addAttribute("unassignedCategories", twintwoSrv.getUnassignedTwinones(intVar));
 
+		List<OnetwinchildMdl> onetwinchildList = twinoneObj.getOnetwinchildList(); // instantiate the java list	
+		Boolean hasOneOrMoreOnetwinchild = false; 
+		
+		if ( onetwinchildList.size() > 0 ) {
+			hasOneOrMoreOnetwinchild = true;
+		}
+		model.addAttribute("hasOneOrMoreOnetwinchild", hasOneOrMoreOnetwinchild);
+		System.out.println("hasOneOrMoreOnetwinchild: " + hasOneOrMoreOnetwinchild); 
 		return "twinone/edit.jsp";
 	}
 	
@@ -209,8 +241,6 @@ public class TwinoneCtl {
 		
 		UserMdl currentUserMdl = userSrv.findById(authenticatedUserId); //  gets the userModel object by calling the user service with the session user id
 		UserMdl recordCreatorUserMdl = twinoneObj.getUserMdl();   // gets the userMdl obj saved to the existing twinoneObj 
-		System.out.println("currentUserMdl: " + currentUserMdl); 
-		System.out.println("recordCreatorUserMdl: " + recordCreatorUserMdl); 
 		
 		if(!currentUserMdl.equals(recordCreatorUserMdl)) {
 			System.out.println("recordCreatorUserMdl != currentUserMdl, so redirected to record"); 
@@ -304,8 +334,16 @@ public class TwinoneCtl {
 //			return "redirect:/publication";
 //		}
 
+		List<OnetwinchildMdl> onetwinchildList = twinoneObj.getOnetwinchildList(); // instantiate the java list	
+		
+		if ( onetwinchildList.size() > 0 ) {
+			System.out.println("Delete hack attempted on twinone record");
+			redirectAttributes.addFlashAttribute("permissionErrorMsg", "This event has onetwinchild records, so it cannot be deleted.  If all user RSVPs get deleted, you can then delete this event.  Event no longer happening?  Then update the twinoneStatus to be Cancelled.");
+			return "redirect:/twinone/" + twinoneObj.getId();
+		}
+			
 		twinoneSrv.delete(twinoneObj);
-        return "redirect:/home";
+        return "redirect:/twinone";
     }
 	
 

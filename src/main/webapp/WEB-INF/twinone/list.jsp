@@ -13,9 +13,7 @@
 	</div>
 		
 	<div id=main class="container-fluid">
-		
-		
-		
+
 		<div id="twinoneList" class="container my-5 ">
 
 		    <c:if test="${successMsg != null}">

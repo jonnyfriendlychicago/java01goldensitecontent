@@ -107,14 +107,28 @@
 								<button type="submit" class="btn btn-primary">Update</button>
 							</div>
 						</form:form>
-				
-						<form action="/twinone/${twinone.id}" method="post">
-						    <input type="hidden" name="_method" value="delete">
-						    <button class="btn btn-danger">Delete this Twinone</button>
-						</form>
 						
 					</div> <!-- end profileCard -->
-				<!-- </div> --> <!-- end profileContainer -->
+					<div id="otherActionsCard" class="card mt-3 p-3 d-md-flex justify-content-start">
+						<c:choose >
+					        <c:when test="${not hasOneOrMoreOnetwinchild}">
+					        	<div class="card p-2 border-0">
+						        <p>Other Actions:</p>
+						        </div>
+						        <form action="/twinone/${twinone.id}" method="post">
+								    <input type="hidden" name="_method" value="delete">
+								    <button class="btn btn-danger">Delete this Twinone</button>
+								</form>
+					        </c:when>
+					        <c:otherwise>
+						        <div class="card p-2 border-0">
+						        <p>This event has onetwinchild records, so it cannot be deleted.<br>
+						        	If all user RSVPs get deleted, you can then delete this event.<br>
+						        	Event no longer happening?  Then update the twinoneStatus to be "Cancelled."</p>
+						        </div>
+					        </c:otherwise>
+					    </c:choose>
+					</div> <!-- end otherActionsCard -->
 			</div> <!-- end col -->
 			<div class="col">
 			</div> <!-- end col -->
